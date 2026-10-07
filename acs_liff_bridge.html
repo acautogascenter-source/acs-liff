@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>ACS LINE Connect</title>
+<script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+<style>
+body{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;margin:0;background:#f5f7fa;color:#172033}
+.wrap{max-width:520px;margin:0 auto;padding:28px 20px}
+.card{background:#fff;border-radius:18px;padding:24px;box-shadow:0 6px 24px rgba(0,0,0,.08)}
+h1{font-size:22px;margin:0 0 8px}.muted{color:#657084;line-height:1.6}
+.status{margin-top:18px;padding:14px;border-radius:12px;background:#f1f3f6;white-space:pre-wrap;word-break:break-word}
+button{width:100%;border:0;border-radius:12px;padding:14px;font-size:16px;font-weight:700;margin-top:14px;cursor:pointer}
+#continue{background:#111;color:#fff} #retry{background:#e9edf3;color:#172033}
+.ok{background:#e8f7ee}.err{background:#fff0f0}
+.small{font-size:12px;color:#778195;margin-top:14px;word-break:break-all}
+</style>
+</head>
+<body>
+<div class="wrap"><div class="card">
+<h1>ACS SERVICE CENTER</h1>
+<div class="muted">กำลังเชื่อมต่อ LINE เพื่อรับ LINE User ID สำหรับการแจ้งเตือน</div>
+<div id="status" class="status">กำลังเริ่มต้น LIFF...</div>
+<button id="continue" hidden>กลับไปหน้า ACS</button>
+<button id="retry" hidden>ลองเชื่อมต่ออีกครั้ง</button>
+<div id="debug" class="small"></div>
+</div></div>
+<script>
+const LIFF_ID='2011246207-sX1HgP1s';
+const ACS_URL='https://script.google.com/macros/s/AKfycbzfIPLZtisD645c6_-meYghd6qRfT-DUNIA10TQhKXyDJzAkLUEiR5lC-P-NGLzMVSK/exec';
+const statusEl=document.getElementById('status');
+const debugEl=document.getElementById('debug');
+const continueBtn=document.getElementById('continue');
+const retryBtn=document.getElementById('retry');
+
+function status(msg, ok=false, err=false){
+  statusEl.textContent=msg;
+  statusEl.className='status '+(ok?'ok':'')+(err?' err':'');
+}
+function debug(msg){debugEl.textContent=msg}
+function goBack(){
+  try {
+    if (liff.isInClient()) { liff.closeWindow(); return; }
+  } catch(e){}
+  location.href=ACS_URL;
+}
+continueBtn.onclick=goBack;
+retryBtn.onclick=()=>location.reload();
+
+async function run(){
+  try{
+    status('กำลังเริ่มต้น LIFF...');
+    debug('LIFF ID: '+LIFF_ID+'\nURL: '+location.href);
+
+    await Promise.race([
+      liff.init({liffId:LIFF_ID}),
+      new Promise((_,reject)=>setTimeout(()=>reject(new Error('LIFF init timeout 20 วินาที')),20000))
+    ]);
+
+    const inClient=liff.isInClient();
+    const logged=liff.isLoggedIn();
+    debug('isInClient='+inClient+'\nisLoggedIn='+logged);
+
+    if(!logged){
+      if(inClient){
+        status('LINE เปิดหน้านี้แล้ว แต่ยังไม่มี Login session\nกรุณาปิดหน้านี้ แล้วเปิด LIFF นี้จาก LINE ใหม่อีกครั้ง',false,true);
+        retryBtn.hidden=false;
+        return;
+      }
+      status('กำลังเปิด LINE Login...');
+      liff.login({redirectUri:location.href});
+      return;
+    }
+
+    status('กำลังอ่านข้อมูล LINE...');
+    const profile=await Promise.race([
+      liff.getProfile(),
+      new Promise((_,reject)=>setTimeout(()=>reject(new Error('getProfile timeout 10 วินาที')),10000))
+    ]);
+
+    if(!profile || !profile.userId) throw new Error('ไม่พบ LINE User ID');
+
+    status('เชื่อมต่อ LINE สำเร็จ ✓\n'+(profile.displayName||''),true);
+    debug('LINE User ID: '+profile.userId);
+
+    // Save to Apps Script. This is best-effort and never blocks the LIFF success state.
+    if(window.google && google.script && google.script.run){
+      google.script.run
+        .withSuccessHandler(()=>{})
+        .withFailureHandler(()=>{})
+        .saveLineUserId(profile.userId);
+    }
+
+    // Store a handoff record locally for the ACS page.
+    localStorage.setItem('ACS_LINE_USER_ID',profile.userId);
+    localStorage.setItem('ACS_LINE_DISPLAY_NAME',profile.displayName||'');
+    continueBtn.hidden=false;
+
+    setTimeout(()=>goBack(),1200);
+  }catch(e){
+    console.error(e);
+    status('LINE เชื่อมต่อไม่สำเร็จ: '+(e.message||e),false,true);
+    retryBtn.hidden=false;
+    debug('LIFF ID: '+LIFF_ID+'\nURL: '+location.href+'\n'+(e.stack||''));
+  }
+}
+run();
+</script>
+</body>
+</html>
