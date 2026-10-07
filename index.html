@@ -1,9 +1,70 @@
-<script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>ACS LINE Bridge</title>
+
+  <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 30px 20px;
+      text-align: center;
+      background: #f5f5f5;
+    }
+
+    .box {
+      max-width: 500px;
+      margin: 40px auto;
+      background: white;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0,0,0,.08);
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      border: 0;
+      border-radius: 10px;
+      background: #06c755;
+      color: white;
+      font-size: 18px;
+      cursor: pointer;
+    }
+
+    #status {
+      margin-top: 20px;
+      line-height: 1.6;
+      word-break: break-word;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="box">
+
+  <h2>ACS LINE</h2>
+
+  <p>เชื่อมต่อ LINE เพื่อใช้งานระบบจองคิว</p>
+
+  <button onclick="connectLINE()">
+    เชื่อมต่อ LINE
+  </button>
+
+  <div id="status">
+    ยังไม่ได้เชื่อมต่อ LINE
+  </div>
+
+</div>
 
 <script>
 
-const LIFF_ID =
-  "2011246207-sX1HgP1s";
+const LIFF_ID = "2011246207-sX1HgP1s";
 
 const GAS_API =
   "https://script.google.com/macros/s/AKfycbzfIPLZtisD645c6_-meYghd6qRfT-DUNIA10TQhKXyDJzAkLUEiR5lC-P-NGLzMVSK/exec";
@@ -11,23 +72,17 @@ const GAS_API =
 
 async function connectLINE() {
 
-  const status =
-    document.getElementById("status");
+  const status = document.getElementById("status");
 
   try {
 
-    status.textContent =
-      "กำลังเริ่ม LINE...";
-
+    status.textContent = "กำลังเริ่มต้น LINE...";
 
     await liff.init({
       liffId: LIFF_ID
     });
 
-
-    /************************************************
-     * ถ้ายังไม่ได้ Login
-     ************************************************/
+    console.log("LIFF initialized");
 
     if (!liff.isLoggedIn()) {
 
@@ -40,12 +95,11 @@ async function connectLINE() {
     }
 
 
-    /************************************************
-     * ต้องใช้ ID TOKEN
-     ************************************************/
+    status.textContent =
+      "กำลังอ่าน LINE ID Token...";
 
-    const idToken =
-      liff.getIDToken();
+
+    const idToken = liff.getIDToken();
 
 
     if (!idToken) {
@@ -58,47 +112,30 @@ async function connectLINE() {
 
 
     status.textContent =
-      "กำลังบันทึก LINE User...";
+      "กำลังส่งข้อมูลไปยังระบบ...";
 
 
-    /************************************************
-     * ส่ง Token ไป Apps Script
-     *
-     * ใช้ no-cors เพราะ GitHub Pages
-     * เป็นคนละ origin กับ Apps Script
-     ************************************************/
+    await fetch(GAS_API, {
 
-    await fetch(
-      GAS_API,
-      {
-        method: "POST",
+      method: "POST",
 
-        mode: "no-cors",
+      mode: "no-cors",
 
-        headers: {
-          "Content-Type":
-            "text/plain;charset=utf-8"
-        },
+      headers: {
+        "Content-Type":
+          "text/plain;charset=utf-8"
+      },
 
-        body: JSON.stringify({
+      body: JSON.stringify({
 
-          action:
-            "saveLineUser",
+        action: "saveLineUser",
 
-          idToken:
-            idToken
+        idToken: idToken
 
-        })
+      })
 
-      }
-    );
+    });
 
-
-    /************************************************
-     * no-cors อ่าน response ไม่ได้
-     *
-     * ดังนั้นถือว่าส่งคำขอสำเร็จ
-     ************************************************/
 
     status.textContent =
       "เชื่อมต่อ LINE สำเร็จ ✅";
@@ -110,13 +147,13 @@ async function connectLINE() {
 
     status.textContent =
       "เชื่อมต่อ LINE ไม่สำเร็จ: " +
-      (
-        error.message ||
-        error
-      );
+      (error.message || error);
 
   }
 
 }
 
 </script>
+
+</body>
+</html>
