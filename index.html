@@ -76,43 +76,52 @@ async function connectLINE() {
 
   try {
 
-    status.textContent = "กำลังเริ่มต้น LINE...";
+    status.textContent = "1. กำลังเริ่ม LIFF...";
 
     await liff.init({
       liffId: LIFF_ID
     });
 
     console.log("LIFF initialized");
+    console.log("isLoggedIn =", liff.isLoggedIn());
+    console.log("isInClient =", liff.isInClient());
+
 
     if (!liff.isLoggedIn()) {
 
       status.textContent =
-        "กำลังเปิด LINE Login...";
+        "2. ยังไม่ได้ Login → กำลังเปิด LINE Login...";
 
-      liff.login();
+      liff.login({
+        redirectUri:
+          window.location.href
+      });
 
       return;
     }
 
 
     status.textContent =
-      "กำลังอ่าน LINE ID Token...";
+      "3. Login แล้ว กำลังอ่าน ID Token...";
 
 
     const idToken = liff.getIDToken();
 
 
+    console.log("ID Token exists =", !!idToken);
+
+
     if (!idToken) {
 
       throw new Error(
-        "ไม่สามารถอ่าน LINE ID Token ได้"
+        "LIFF Login สำเร็จ แต่ไม่พบ ID Token"
       );
 
     }
 
 
     status.textContent =
-      "กำลังส่งข้อมูลไปยังระบบ...";
+      "4. กำลังส่ง ID Token ไปยังระบบ...";
 
 
     await fetch(GAS_API, {
@@ -138,15 +147,15 @@ async function connectLINE() {
 
 
     status.textContent =
-      "เชื่อมต่อ LINE สำเร็จ ✅";
+      "5. เชื่อมต่อ LINE สำเร็จ ✅";
 
 
   } catch (error) {
 
-    console.error(error);
+    console.error("LINE ERROR:", error);
 
     status.textContent =
-      "เชื่อมต่อ LINE ไม่สำเร็จ: " +
+      "เกิดข้อผิดพลาด: " +
       (error.message || error);
 
   }
