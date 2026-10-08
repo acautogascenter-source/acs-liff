@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+  name="viewport"
+  content="width=device-width,initial-scale=1,viewport-fit=cover"
+>
+
+<title>จองคิว | ACS Service Center</title>
+
+<style>
+
+*{
+  box-sizing:border-box;
+}
+
+:root{
+  --red:#c8102e;
+  --red2:#ed1c3b;
+  --dark:#171717;
+  --gray:#777;
+  --line:#e9e9e9;
+  --bg:#f7f7f7;
+}
+
+body{
+  margin:0;
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    "Noto Sans Thai",
+    Arial,
+    sans-serif;
+  background:
+    radial-gradient(
+      circle at 0 0,
+      rgba(200,16,46,.09),
+      transparent 32%
+    ),
+    #f7f7f7;
+  color:var(--dark);
+}
+
+.header{
+  padding:24px 20px 20px;
+  background:#fff;
+  border-bottom:1px solid #eee;
+  position:sticky;
+  top:0;
+  z-index:10;
+  backdrop-filter:blur(15px);
+}
+
+.header-inner{
+  max-width:650px;
+  margin:auto;
+}
+
+.brand{
+  color:var(--red);
+  font-weight:900;
+  font-size:13px;
+  letter-spacing:1.2px;
+}
+
+.title{
+  font-size:28px;
+  font-weight:900;
+  margin-top:5px;
+}
+
+.subtitle{
+  color:#777;
+  font-size:13px;
+  margin-top:5px;
+}
+
+.progress{
+  display:flex;
+  gap:7px;
+  margin-top:18px;
+}
+
+.progress span{
+  height:4px;
+  flex:1;
+  background:#e9e9e9;
+  border-radius:99px;
+}
+
+.progress span.active{
+  background:var(--red);
+}
+
+.container{
+  max-width:650px;
+  margin:auto;
+  padding:20px 16px 50px;
+}
+
+.section{
+  background:white;
+  border-radius:24px;
+  padding:21px;
+  margin-bottom:15px;
+  box-shadow:
+    0 8px 30px rgba(0,0,0,.055);
+}
+
+.section-title{
+  font-weight:900;
+  font-size:18px;
+  margin-bottom:16px;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+
+.option{
+  border:1.5px solid var(--line);
+  border-radius:17px;
+  padding:15px;
+  cursor:pointer;
+  transition:.2s;
+  background:#fff;
+}
+
+.option:hover{
+  border-color:#e4a4ad;
+}
+
+.option.selected{
+  border-color:var(--red);
+  background:#fff4f6;
+  box-shadow:
+    0 5px 15px rgba(200,16,46,.10);
+}
+
+.option-icon{
+  font-size:25px;
+  margin-bottom:7px;
+}
+
+.option-title{
+  font-weight:800;
+}
+
+.option-sub{
+  color:#888;
+  font-size:12px;
+  margin-top:3px;
+}
+
+label{
+  display:block;
+  font-size:13px;
+  font-weight:800;
+  margin-bottom:7px;
+}
+
+input,
+select,
+textarea{
+  width:100%;
+  border:1px solid #ddd;
+  border-radius:14px;
+  padding:14px;
+  font-size:15px;
+  outline:none;
+  background:#fff;
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+  border-color:var(--red);
+  box-shadow:0 0 0 3px rgba(200,16,46,.08);
+}
+
+.field{
+  margin-bottom:15px;
+}
+
+.row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+
+.summary{
+  background:#171717;
+  color:#fff;
+  border-radius:21px;
+  padding:20px;
+}
+
+.summary-title{
+  color:#aaa;
+  font-size:12px;
+}
+
+.summary-main{
+  font-size:20px;
+  font-weight:900;
+  margin:5px 0 15px;
+}
+
+.summary-line{
+  display:flex;
+  justify-content:space-between;
+  padding:8px 0;
+  border-bottom:1px solid rgba(255,255,255,.1);
+  font-size:13px;
+}
+
+.summary-line:last-child{
+  border-bottom:0;
+}
+
+.submit{
+  width:100%;
+  border:0;
+  padding:18px;
+  border-radius:17px;
+  background:
+    linear-gradient(
+      135deg,
+      var(--red2),
+      var(--red)
+    );
+  color:#fff;
+  font-size:18px;
+  font-weight:900;
+  cursor:pointer;
+  box-shadow:
+    0 12px 28px rgba(200,16,46,.25);
+  margin-top:16px;
+}
+
+.submit:disabled{
+  opacity:.6;
+}
+
+.notice{
+  text-align:center;
+  color:#999;
+  font-size:11px;
+  margin-top:18px;
+}
+
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.55);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  z-index:100;
+}
+
+.modal-box{
+  width:100%;
+  max-width:420px;
+  background:white;
+  border-radius:28px;
+  padding:30px;
+  text-align:center;
+  animation:pop .25s ease;
+}
+
+.check{
+  width:70px;
+  height:70px;
+  margin:auto;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#e9f9ef;
+  color:#159447;
+  font-size:35px;
+}
+
+@keyframes pop{
+  from{
+    transform:scale(.85);
+    opacity:0;
+  }
+  to{
+    transform:scale(1);
+    opacity:1;
+  }
+}
+
+@media(max-width:430px){
+
+  .grid{
+    grid-template-columns:1fr;
+  }
+
+  .row{
+    grid-template-columns:1fr;
+  }
+
+  .title{
+    font-size:25px;
+  }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header class="header">
+
+<div class="header-inner">
+
+<div class="brand">
+ACS SERVICE CENTER
+</div>
+
+<div class="title">
+จองคิว / นัดหมาย
+</div>
+
+<div class="subtitle">
+เลือกบริการและเวลาที่คุณสะดวก
+</div>
+
+<div class="progress">
+<span class="active"></span>
+<span class="active"></span>
+<span></span>
+</div>
+
+</div>
+
+</header>
+
+
+<main class="container">
+
+
+<!-- SERVICE -->
+
+<section class="section">
+
+<div class="section-title">
+01 · เลือกบริการ
+</div>
+
+<div class="grid">
+
+<div
+ class="option"
+ data-service="ตรวจเช็กระบบ"
+ onclick="selectService(this,'ตรวจเช็กระบบ')"
+>
+
+<div class="option-icon">🔧</div>
+
+<div class="option-title">
+ตรวจเช็กระบบ
+</div>
+
+<div class="option-sub">
+ตรวจสอบเบื้องต้น
+</div>
+
+</div>
+
+
+<div
+ class="option"
+ data-service="เปลี่ยนถ่ายน้ำมันเครื่อง"
+ onclick="selectService(this,'เปลี่ยนถ่ายน้ำมันเครื่อง')"
+>
+
+<div class="option-icon">🛢️</div>
+
+<div class="option-title">
+เปลี่ยนถ่ายน้ำมันเครื่อง
+</div>
+
+<div class="option-sub">
+Service
+</div>
+
+</div>
+
+
+<div
+ class="option"
+ data-service="ระบบแก๊ส"
+ onclick="selectService(this,'ตรวจระบบแก๊ส')"
+>
+
+<div class="option-icon">⛽</div>
+
+<div class="option-title">
+ตรวจระบบแก๊ส
+</div>
+
+<div class="option-sub">
+LPG / NGV
+</div>
+
+</div>
+
+
+<div
+ class="option"
+ data-service="ซ่อมบำรุง"
+ onclick="selectService(this,'ซ่อมบำรุง')"
+>
+
+<div class="option-icon">🚗</div>
+
+<div class="option-title">
+ซ่อมบำรุง
+</div>
+
+<div class="option-sub">
+งานซ่อมทั่วไป
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- CUSTOMER -->
+
+<section class="section">
+
+<div class="section-title">
+02 · ข้อมูลรถ
+</div>
+
+<div class="row">
+
+<div class="field">
+
+<label>ทะเบียนรถ</label>
+
+<input
+ id="plate"
+ placeholder="เช่น 1กข 1234"
+>
+
+</div>
+
+<div class="field">
+
+<label>ยี่ห้อรถ</label>
+
+<input
+ id="carBrand"
+ placeholder="Toyota"
+>
+
+</div>
+
+</div>
+
+<div class="row">
+
+<div class="field">
+
+<label>รุ่นรถ</label>
+
+<input
+ id="carModel"
+ placeholder="Fortuner"
+>
+
+</div>
+
+<div class="field">
+
+<label>ปีรถ</label>
+
+<input
+ id="carYear"
+ type="number"
+ placeholder="2022"
+>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- DATE -->
+
+<section class="section">
+
+<div class="section-title">
+03 · วันและเวลา
+</div>
+
+<div class="field">
+
+<label>วันที่ต้องการเข้ารับบริการ</label>
+
+<input
+ id="bookingDate"
+ type="date"
+>
+
+</div>
+
+<div class="field">
+
+<label>ช่วงเวลา</label>
+
+<select id="bookingTime">
+
+<option value="">
+เลือกเวลา
+</option>
+
+<option>08:30</option>
+<option>09:30</option>
+<option>10:30</option>
+<option>11:30</option>
+<option>13:00</option>
+<option>14:00</option>
+<option>15:00</option>
+<option>16:00</option>
+
+</select>
+
+</div>
+
+</section>
+
+
+<!-- NOTE -->
+
+<section class="section">
+
+<div class="section-title">
+04 · รายละเอียดเพิ่มเติม
+</div>
+
+<textarea
+ id="note"
+ rows="4"
+ placeholder="แจ้งอาการรถ หรือรายละเอียดเพิ่มเติม..."
+></textarea>
+
+</section>
+
+
+<!-- SUMMARY -->
+
+<section class="section">
+
+<div class="section-title">
+05 · ตรวจสอบข้อมูล
+</div>
+
+<div class="summary">
+
+<div class="summary-title">
+บริการที่เลือก
+</div>
+
+<div
+ id="summaryService"
+ class="summary-main"
+>
+ยังไม่ได้เลือก
+</div>
+
+<div class="summary-line">
+<span>ทะเบียน</span>
+<strong id="summaryPlate">-</strong>
+</div>
+
+<div class="summary-line">
+<span>วันที่</span>
+<strong id="summaryDate">-</strong>
+</div>
+
+<div class="summary-line">
+<span>เวลา</span>
+<strong id="summaryTime">-</strong>
+</div>
+
+</div>
+
+<button
+ id="submitBtn"
+ class="submit"
+ onclick="submitBooking()"
+>
+ยืนยันการจองคิว
+</button>
+
+<div class="notice">
+การจองจะถูกส่งเข้าสู่ระบบ ACS Service Center
+</div>
+
+</section>
+
+</main>
+
+
+<div
+ id="successModal"
+ class="modal"
+>
+
+<div class="modal-box">
+
+<div class="check">
+✓
+</div>
+
+<h2>
+จองคิวสำเร็จ
+</h2>
+
+<p id="successText">
+ระบบได้รับข้อมูลการนัดหมายแล้ว
+</p>
+
+<button
+ class="submit"
+ onclick="closeModal()"
+>
+เรียบร้อย
+</button>
+
+</div>
+
+</div>
+
+
+<script>
+
+const GAS_API =
+"https://script.google.com/macros/s/AKfycbwztzUCGN0AUy8bXUzG96o60Prt5hoMhZnght_xrlgC2lWfoEvszod_hYv28G8n9qOtuQ/exec";
+
+const params =
+new URLSearchParams(
+window.location.search
+);
+
+const userId =
+params.get("userId") || "";
+
+const displayName =
+params.get("displayName") || "ลูกค้า";
+
+let selectedService = "";
+
+
+/* DATE */
+
+const dateInput =
+document.getElementById(
+"bookingDate"
+);
+
+const today =
+new Date();
+
+const localDate =
+today.toISOString()
+.slice(0,10);
+
+dateInput.min =
+localDate;
+
+
+/* SERVICE */
+
+function selectService(
+element,
+service
+){
+
+document
+.querySelectorAll(".option")
+.forEach(
+el => el.classList.remove("selected")
+);
+
+element.classList.add("selected");
+
+selectedService =
+service;
+
+document.getElementById(
+"summaryService"
+).textContent =
+service;
+
+}
+
+
+/* LIVE SUMMARY */
+
+document
+.getElementById("plate")
+.addEventListener(
+"input",
+updateSummary
+);
+
+document
+.getElementById("bookingDate")
+.addEventListener(
+"change",
+updateSummary
+);
+
+document
+.getElementById("bookingTime")
+.addEventListener(
+"change",
+updateSummary
+);
+
+function updateSummary(){
+
+document.getElementById(
+"summaryPlate"
+).textContent =
+document.getElementById(
+"plate"
+).value || "-";
+
+document.getElementById(
+"summaryDate"
+).textContent =
+document.getElementById(
+"bookingDate"
+).value || "-";
+
+document.getElementById(
+"summaryTime"
+).textContent =
+document.getElementById(
+"bookingTime"
+).value || "-";
+
+}
+
+
+/* SUBMIT */
+
+async function submitBooking(){
+
+const plate =
+document.getElementById(
+"plate"
+).value.trim();
+
+const carBrand =
+document.getElementById(
+"carBrand"
+).value.trim();
+
+const carModel =
+document.getElementById(
+"carModel"
+).value.trim();
+
+const carYear =
+document.getElementById(
+"carYear"
+).value.trim();
+
+const bookingDate =
+document.getElementById(
+"bookingDate"
+).value;
+
+const bookingTime =
+document.getElementById(
+"bookingTime"
+).value;
+
+const note =
+document.getElementById(
+"note"
+).value.trim();
+
+
+if(!selectedService){
+
+alert("กรุณาเลือกบริการ");
+
+return;
+
+}
+
+if(!plate){
+
+alert("กรุณากรอกทะเบียนรถ");
+
+return;
+
+}
+
+if(!bookingDate){
+
+alert("กรุณาเลือกวันที่");
+
+return;
+
+}
+
+if(!bookingTime){
+
+alert("กรุณาเลือกเวลา");
+
+return;
+
+}
+
+
+const btn =
+document.getElementById(
+"submitBtn"
+);
+
+btn.disabled = true;
+
+btn.textContent =
+"กำลังบันทึกการจอง...";
+
+
+const payload = {
+
+action:"createAppointment",
+
+userId:userId,
+
+displayName:displayName,
+
+service:selectedService,
+
+plate:plate,
+
+carBrand:carBrand,
+
+carModel:carModel,
+
+carYear:carYear,
+
+bookingDate:bookingDate,
+
+bookingTime:bookingTime,
+
+note:note,
+
+status:"PENDING",
+
+source:"github-booking",
+
+timestamp:
+new Date().toISOString()
+
+};
+
+
+try{
+
+await fetch(
+GAS_API,
+{
+method:"POST",
+mode:"no-cors",
+headers:{
+"Content-Type":
+"text/plain;charset=utf-8"
+},
+body:JSON.stringify(payload)
+}
+);
+
+
+/*
+ * no-cors อ่าน response ไม่ได้
+ * แต่ request ถูกส่งไป Apps Script
+ */
+
+document.getElementById(
+"successText"
+).textContent =
+"คุณ " +
+displayName +
+" ระบบได้รับคำขอจองคิววันที่ " +
+bookingDate +
+" เวลา " +
+bookingTime +
+" แล้ว";
+
+document.getElementById(
+"successModal"
+).style.display =
+"flex";
+
+
+btn.textContent =
+"บันทึกแล้ว ✓";
+
+
+}catch(error){
+
+console.error(error);
+
+alert(
+"ไม่สามารถส่งข้อมูลได้\n" +
+error.message
+);
+
+btn.disabled = false;
+
+btn.textContent =
+"ยืนยันการจองคิว";
+
+}
+
+}
+
+
+function closeModal(){
+
+document.getElementById(
+"successModal"
+).style.display =
+"none";
+
+}
+
+</script>
+
+</body>
+</html>
