@@ -10,7 +10,7 @@
     content="width=device-width, initial-scale=1.0"
   >
 
-  <title>ACS LINE Bridge</title>
+  <title>ACS LINE - ระบบจองคิว</title>
 
   <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
 
@@ -21,55 +21,74 @@
       box-sizing: border-box;
     }
 
+
     body {
 
       margin: 0;
-
-      padding: 30px 20px;
 
       font-family:
         Arial,
         "Noto Sans Thai",
         sans-serif;
 
-      background: #f4f8f6;
+      background:
+        #f3f5f7;
 
-      text-align: center;
+      color: #222;
 
     }
 
 
-    .box {
+    .container {
 
-      max-width: 600px;
+      max-width: 520px;
 
-      margin: 40px auto;
+      margin: 0 auto;
+
+      padding: 20px;
+
+    }
+
+
+    .card {
 
       background: white;
 
-      padding: 35px 25px;
+      border-radius: 18px;
 
-      border-radius: 20px;
+      padding: 24px;
+
+      margin-top: 20px;
 
       box-shadow:
-        0 5px 25px
-        rgba(0,0,0,.10);
+        0 4px 20px
+        rgba(0,0,0,.08);
+
+    }
+
+
+    h1,
+    h2 {
+
+      margin-top: 0;
 
     }
 
 
     h1 {
 
-      margin-top: 0;
+      text-align: center;
 
-      font-size: 32px;
+      font-size: 25px;
 
     }
 
 
-    p {
+    .subtitle {
 
-      font-size: 20px;
+      text-align: center;
+
+      color: #666;
 
       line-height: 1.6;
 
@@ -80,60 +99,113 @@
 
       width: 100%;
 
-      padding: 18px;
-
       border: 0;
 
       border-radius: 12px;
+
+      padding: 14px;
+
+      font-size: 17px;
+
+      cursor: pointer;
+
+      margin-top: 10px;
+
+    }
+
+
+    .line-btn {
 
       background: #06c755;
 
       color: white;
 
-      font-size: 22px;
+    }
 
-      font-weight: bold;
 
-      cursor: pointer;
+    .submit-btn {
+
+      background: #111;
+
+      color: white;
 
     }
 
 
     button:disabled {
 
-      opacity: .6;
+      opacity: .5;
+
+      cursor: wait;
+
+    }
+
+
+    label {
+
+      display: block;
+
+      font-weight: bold;
+
+      margin-top: 15px;
+
+      margin-bottom: 6px;
+
+    }
+
+
+    input,
+    select,
+    textarea {
+
+      width: 100%;
+
+      padding: 12px;
+
+      border: 1px solid #ddd;
+
+      border-radius: 10px;
+
+      font-size: 16px;
+
+      background: white;
+
+    }
+
+
+    textarea {
+
+      min-height: 90px;
+
+      resize: vertical;
 
     }
 
 
     #status {
 
-      margin-top: 25px;
+      margin-top: 18px;
 
-      padding: 20px;
+      padding: 12px;
 
-      border-radius: 15px;
+      border-radius: 10px;
 
       background: #f5f5f5;
 
-      font-size: 18px;
-
-      line-height: 1.7;
-
-      word-break: break-word;
+      line-height: 1.6;
 
       white-space: pre-wrap;
 
-      text-align: left;
+      word-break: break-word;
 
     }
 
 
     .success {
 
-      background: #e7f8ed !important;
+      background: #e9f9ef !important;
 
-      color: #087c3d;
+      color: #087f3e;
 
     }
 
@@ -142,7 +214,46 @@
 
       background: #fff0f0 !important;
 
-      color: #c00000;
+      color: #b00020;
+
+    }
+
+
+    .user-info {
+
+      background: #f1f7ff;
+
+      border-radius: 12px;
+
+      padding: 14px;
+
+      margin-bottom: 20px;
+
+      font-size: 14px;
+
+      word-break: break-word;
+
+    }
+
+
+    .hidden {
+
+      display: none;
+
+    }
+
+
+    .appointment-result {
+
+      background: #ecfff3;
+
+      padding: 18px;
+
+      border-radius: 12px;
+
+      margin-top: 20px;
+
+      line-height: 1.8;
 
     }
 
@@ -154,27 +265,239 @@
 <body>
 
 
-<div class="box">
-
-  <h1>💚 ACS LINE</h1>
-
-  <p>
-    เชื่อมต่อ LINE เพื่อใช้ข้อมูล LINE User ID
-    กับระบบจองคิว
-  </p>
+<div class="container">
 
 
-  <button
-    id="connectBtn"
-    onclick="connectLINE()"
+  <!-- =====================================================
+       CONNECT
+  ====================================================== -->
+
+  <div
+    class="card"
+    id="connectCard"
   >
-    เชื่อมต่อ LINE
-  </button>
+
+    <h1>
+      ACS LINE
+    </h1>
 
 
-  <div id="status">
-    ยังไม่ได้เชื่อมต่อ LINE
+    <p class="subtitle">
+
+      เชื่อมต่อ LINE
+      เพื่อใช้งานระบบจองคิวและนัดหมาย
+
+    </p>
+
+
+    <button
+      id="connectBtn"
+      class="line-btn"
+      onclick="connectLINE()"
+    >
+      เชื่อมต่อ LINE
+    </button>
+
+
+    <div id="status">
+      ยังไม่ได้เชื่อมต่อ LINE
+    </div>
+
   </div>
+
+
+  <!-- =====================================================
+       APPOINTMENT
+  ====================================================== -->
+
+  <div
+    class="card hidden"
+    id="appointmentCard"
+  >
+
+    <h2>
+      📅 จองคิว / นัดหมาย
+    </h2>
+
+
+    <div
+      class="user-info"
+      id="userInfo"
+    ></div>
+
+
+    <form
+      id="appointmentForm"
+      onsubmit="submitAppointment(event)"
+    >
+
+
+      <label>
+        วันที่นัดหมาย
+      </label>
+
+      <input
+        type="date"
+        id="appointmentDate"
+        required
+      >
+
+
+      <label>
+        เวลานัดหมาย
+      </label>
+
+      <select
+        id="appointmentTime"
+        required
+      >
+
+        <option value="">
+          เลือกเวลา
+        </option>
+
+        <option value="08:00">
+          08:00
+        </option>
+
+        <option value="09:00">
+          09:00
+        </option>
+
+        <option value="10:00">
+          10:00
+        </option>
+
+        <option value="11:00">
+          11:00
+        </option>
+
+        <option value="13:00">
+          13:00
+        </option>
+
+        <option value="14:00">
+          14:00
+        </option>
+
+        <option value="15:00">
+          15:00
+        </option>
+
+        <option value="16:00">
+          16:00
+        </option>
+
+        <option value="17:00">
+          17:00
+        </option>
+
+      </select>
+
+
+      <label>
+        บริการ
+      </label>
+
+      <select
+        id="service"
+        required
+      >
+
+        <option value="">
+          เลือกบริการ
+        </option>
+
+        <option value="ตรวจเช็กระบบแก๊ส">
+          ตรวจเช็กระบบแก๊ส
+        </option>
+
+        <option value="ติดตั้งแก๊ส">
+          ติดตั้งแก๊ส
+        </option>
+
+        <option value="ซ่อมระบบแก๊ส">
+          ซ่อมระบบแก๊ส
+        </option>
+
+        <option value="เปลี่ยนถังแก๊ส">
+          เปลี่ยนถังแก๊ส
+        </option>
+
+        <option value="ตรวจเช็กทั่วไป">
+          ตรวจเช็กทั่วไป
+        </option>
+
+        <option value="บริการอื่นๆ">
+          บริการอื่นๆ
+        </option>
+
+      </select>
+
+
+      <label>
+        รุ่นรถ
+      </label>
+
+      <input
+        type="text"
+        id="carModel"
+        placeholder="เช่น Toyota Altis"
+      >
+
+
+      <label>
+        ทะเบียนรถ
+      </label>
+
+      <input
+        type="text"
+        id="licensePlate"
+        placeholder="เช่น กข 1234"
+      >
+
+
+      <label>
+        เบอร์โทรศัพท์
+      </label>
+
+      <input
+        type="tel"
+        id="phone"
+        placeholder="08xxxxxxxx"
+        required
+      >
+
+
+      <label>
+        หมายเหตุ
+      </label>
+
+      <textarea
+        id="note"
+        placeholder="รายละเอียดเพิ่มเติม"
+      ></textarea>
+
+
+      <button
+        type="submit"
+        id="submitBtn"
+        class="submit-btn"
+      >
+        ยืนยันการนัดหมาย
+      </button>
+
+
+    </form>
+
+
+    <div
+      id="appointmentResult"
+      class="appointment-result hidden"
+    ></div>
+
+  </div>
+
 
 </div>
 
@@ -182,9 +505,9 @@
 <script>
 
 
-/************************************************************
- * CONFIG
- ************************************************************/
+/* =========================================================
+   CONFIG
+========================================================= */
 
 const LIFF_ID =
   "2011246207-sX1HgP1s";
@@ -194,25 +517,54 @@ const GAS_API =
   "https://script.google.com/macros/s/AKfycbwztzUCGN0AUy8bXUzG96o60Prt5hoMhZnght_xrlgC2lWfoEvszod_hYv28G8n9qOtuQ/exec";
 
 
-/************************************************************
- * ELEMENT
- ************************************************************/
+/* =========================================================
+   GLOBAL USER
+========================================================= */
+
+let currentUser = {
+
+  userId: "",
+
+  displayName: "",
+
+  idToken: ""
+
+};
+
+
+/* =========================================================
+   ELEMENTS
+========================================================= */
 
 const statusEl =
-  document.getElementById(
-    "status"
-  );
+  document.getElementById("status");
 
 
 const connectBtn =
+  document.getElementById("connectBtn");
+
+
+const appointmentCard =
   document.getElementById(
-    "connectBtn"
+    "appointmentCard"
   );
 
 
-/************************************************************
- * STATUS
- ************************************************************/
+const connectCard =
+  document.getElementById(
+    "connectCard"
+  );
+
+
+const userInfo =
+  document.getElementById(
+    "userInfo"
+  );
+
+
+/* =========================================================
+   STATUS
+========================================================= */
 
 function setStatus(
   message,
@@ -222,128 +574,31 @@ function setStatus(
   statusEl.textContent =
     message;
 
-  statusEl.className =
-    "";
-
+  statusEl.className = "";
 
   if (type) {
 
-    statusEl.classList.add(
-      type
-    );
+    statusEl.classList.add(type);
 
   }
 
 }
 
 
-/************************************************************
- * SEND TO GAS
- ************************************************************/
-
-async function sendToGAS(payload) {
-
-  /*
-   * ใช้ POST text/plain
-   * เพื่อไม่ให้เกิด CORS preflight
-   */
-
-  const response =
-    await fetch(
-      GAS_API,
-      {
-
-        method: "POST",
-
-        mode: "cors",
-
-        headers: {
-
-          "Content-Type":
-            "text/plain;charset=utf-8"
-
-        },
-
-        body:
-          JSON.stringify(
-            payload
-          )
-
-      }
-    );
-
-
-  if (!response.ok) {
-
-    throw new Error(
-      "Apps Script HTTP " +
-      response.status
-    );
-
-  }
-
-
-  const text =
-    await response.text();
-
-
-  console.log(
-    "Apps Script response:",
-    text
-  );
-
-
-  let result;
-
-
-  try {
-
-    result =
-      JSON.parse(text);
-
-  } catch (error) {
-
-    throw new Error(
-      "Apps Script ส่งข้อมูลกลับมาไม่ใช่ JSON"
-    );
-
-  }
-
-
-  if (!result.success) {
-
-    throw new Error(
-      result.error ||
-      "Apps Script ไม่สามารถบันทึกข้อมูลได้"
-    );
-
-  }
-
-
-  return result;
-
-}
-
-
-/************************************************************
- * CONNECT LINE
- ************************************************************/
+/* =========================================================
+   CONNECT LINE
+========================================================= */
 
 async function connectLINE() {
 
-  connectBtn.disabled =
-    true;
+  connectBtn.disabled = true;
 
 
   try {
 
-
-    /******************************************************
-     * STEP 1
-     ******************************************************/
-
     setStatus(
-      "1. กำลังเริ่ม LIFF..."
+      "1. กำลังเริ่ม LIFF...",
+      ""
     );
 
 
@@ -372,14 +627,15 @@ async function connectLINE() {
     );
 
 
-    /******************************************************
-     * STEP 2
-     ******************************************************/
+    /*
+     * LOGIN
+     */
 
     if (!liff.isLoggedIn()) {
 
       setStatus(
-        "2. กำลังเปิด LINE Login..."
+        "2. กำลังเปิด LINE Login...",
+        ""
       );
 
 
@@ -396,12 +652,13 @@ async function connectLINE() {
     }
 
 
-    /******************************************************
-     * STEP 3
-     ******************************************************/
+    /*
+     * ID TOKEN
+     */
 
     setStatus(
-      "3. Login สำเร็จ\nกำลังอ่านข้อมูล LINE..."
+      "3. Login สำเร็จ กำลังอ่านข้อมูล...",
+      ""
     );
 
 
@@ -418,12 +675,13 @@ async function connectLINE() {
     }
 
 
-    /******************************************************
-     * STEP 4
-     ******************************************************/
+    /*
+     * PROFILE
+     */
 
     setStatus(
-      "4. กำลังอ่าน LINE User ID..."
+      "4. กำลังอ่าน LINE User ID...",
+      ""
     );
 
 
@@ -431,15 +689,10 @@ async function connectLINE() {
       await liff.getProfile();
 
 
-    const userId =
-      profile.userId || "";
-
-
-    const displayName =
-      profile.displayName || "";
-
-
-    if (!userId) {
+    if (
+      !profile ||
+      !profile.userId
+    ) {
 
       throw new Error(
         "ไม่สามารถอ่าน LINE User ID ได้"
@@ -448,24 +701,33 @@ async function connectLINE() {
     }
 
 
-    console.log(
-      "LINE User ID:",
-      userId
-    );
+    currentUser = {
+
+      userId:
+        profile.userId,
+
+      displayName:
+        profile.displayName || "",
+
+      idToken:
+        idToken
+
+    };
 
 
     console.log(
-      "Display Name:",
-      displayName
+      "LINE User:",
+      currentUser
     );
 
 
-    /******************************************************
-     * STEP 5
-     ******************************************************/
+    /*
+     * SAVE USER
+     */
 
     setStatus(
-      "5. กำลังบันทึก LINE User ID ลงระบบ..."
+      "5. กำลังบันทึก LINE User...",
+      ""
     );
 
 
@@ -475,13 +737,13 @@ async function connectLINE() {
         "saveLineUser",
 
       userId:
-        userId,
+        currentUser.userId,
 
       displayName:
-        displayName,
+        currentUser.displayName,
 
       idToken:
-        idToken,
+        currentUser.idToken,
 
       source:
         "github-liff-bridge",
@@ -492,56 +754,75 @@ async function connectLINE() {
     };
 
 
-    console.log(
-      "Sending:",
-      payload
+    await fetch(
+
+      GAS_API,
+
+      {
+
+        method:
+          "POST",
+
+        mode:
+          "no-cors",
+
+        headers: {
+
+          "Content-Type":
+            "text/plain;charset=utf-8"
+
+        },
+
+        body:
+          JSON.stringify(payload)
+
+      }
+
     );
 
 
-    /******************************************************
-     * STEP 6
-     ******************************************************/
+    /*
+     * SUCCESS
+     */
 
-    const result =
-      await sendToGAS(
-        payload
+    setStatus(
+      "6. เชื่อมต่อ LINE สำเร็จ ✅",
+      "success"
+    );
+
+
+    userInfo.innerHTML =
+
+      "<b>LINE:</b> " +
+      escapeHtml(
+        currentUser.displayName
+      ) +
+
+      "<br><b>User ID:</b> " +
+      escapeHtml(
+        currentUser.userId
       );
 
 
-    console.log(
-      "GAS result:",
-      result
-    );
+    connectBtn.textContent =
+      "เชื่อมต่อแล้ว ✓";
 
 
-    /******************************************************
-     * SUCCESS
-     ******************************************************/
+    /*
+     * เปิดฟอร์มนัดหมาย
+     */
 
-    setStatus(
-
-      "6. เชื่อมต่อ LINE สำเร็จ ✅\n\n" +
-
-      "ชื่อ: " +
-      displayName +
-      "\n\n" +
-
-      "LINE User ID:\n" +
-      userId +
-      "\n\n" +
-
-      "บันทึกลง LINE_USERS แล้ว\n" +
-
-      "สถานะ: " +
-      result.action,
-
-      "success"
-
-    );
+    appointmentCard
+      .classList
+      .remove("hidden");
 
 
-    connectBtn.disabled =
-      false;
+    /*
+     * ซ่อนปุ่มเชื่อมต่อ
+     */
+
+    connectBtn.style.display =
+      "none";
 
 
   } catch (error) {
@@ -556,7 +837,10 @@ async function connectLINE() {
 
       "LINE เชื่อมต่อไม่สำเร็จ\n\n" +
 
-      error.message,
+      (
+        error.message ||
+        error
+      ),
 
       "error"
 
@@ -571,31 +855,350 @@ async function connectLINE() {
 }
 
 
-/************************************************************
- * LOAD
- ************************************************************/
+/* =========================================================
+   SUBMIT APPOINTMENT
+========================================================= */
+
+async function submitAppointment(
+  event
+) {
+
+  event.preventDefault();
+
+
+  if (!currentUser.userId) {
+
+    alert(
+      "กรุณาเชื่อมต่อ LINE ก่อน"
+    );
+
+    return;
+
+  }
+
+
+  const submitBtn =
+    document.getElementById(
+      "submitBtn"
+    );
+
+
+  const resultEl =
+    document.getElementById(
+      "appointmentResult"
+    );
+
+
+  submitBtn.disabled =
+    true;
+
+
+  resultEl
+    .classList
+    .add("hidden");
+
+
+  try {
+
+    const payload = {
+
+      action:
+        "createAppointment",
+
+      userId:
+        currentUser.userId,
+
+      displayName:
+        currentUser.displayName,
+
+      appointmentDate:
+        document
+          .getElementById(
+            "appointmentDate"
+          )
+          .value,
+
+      appointmentTime:
+        document
+          .getElementById(
+            "appointmentTime"
+          )
+          .value,
+
+      service:
+        document
+          .getElementById(
+            "service"
+          )
+          .value,
+
+      carModel:
+        document
+          .getElementById(
+            "carModel"
+          )
+          .value,
+
+      licensePlate:
+        document
+          .getElementById(
+            "licensePlate"
+          )
+          .value,
+
+      phone:
+        document
+          .getElementById(
+            "phone"
+          )
+          .value,
+
+      note:
+        document
+          .getElementById(
+            "note"
+          )
+          .value
+
+    };
+
+
+    /*
+     * ตรวจสอบเบื้องต้น
+     */
+
+    if (
+      !payload.appointmentDate ||
+      !payload.appointmentTime ||
+      !payload.service ||
+      !payload.phone
+    ) {
+
+      throw new Error(
+        "กรุณากรอกข้อมูลที่จำเป็นให้ครบ"
+      );
+
+    }
+
+
+    submitBtn.textContent =
+      "กำลังบันทึก...";
+
+
+    /*
+     * ส่ง GAS
+     */
+
+    const response =
+      await fetch(
+
+        GAS_API,
+
+        {
+
+          method:
+            "POST",
+
+          mode:
+            "no-cors",
+
+          headers: {
+
+            "Content-Type":
+              "text/plain;charset=utf-8"
+
+          },
+
+          body:
+            JSON.stringify(payload)
+
+        }
+
+      );
+
+
+    /*
+     * no-cors อ่าน response ไม่ได้
+     * แต่ request ถูกส่งออกแล้ว
+     */
+
+    resultEl.innerHTML =
+
+      "<b>✅ ส่งคำขอนัดหมายแล้ว</b>" +
+
+      "<br><br>" +
+
+      "วันที่: " +
+      escapeHtml(
+        payload.appointmentDate
+      ) +
+
+      "<br>" +
+
+      "เวลา: " +
+      escapeHtml(
+        payload.appointmentTime
+      ) +
+
+      "<br>" +
+
+      "บริการ: " +
+      escapeHtml(
+        payload.service
+      ) +
+
+      "<br><br>" +
+
+      "สถานะ: รอยืนยันจากร้าน";
+
+
+    resultEl
+      .classList
+      .remove("hidden");
+
+
+    /*
+     * Reset เฉพาะข้อมูลนัดหมาย
+     */
+
+    document
+      .getElementById(
+        "appointmentForm"
+      )
+      .reset();
+
+
+  } catch (error) {
+
+    console.error(
+      "APPOINTMENT ERROR:",
+      error
+    );
+
+
+    resultEl.innerHTML =
+
+      "<b>❌ ไม่สามารถส่งข้อมูลได้</b>" +
+
+      "<br><br>" +
+
+      escapeHtml(
+        error.message || error
+      );
+
+
+    resultEl
+      .classList
+      .remove("hidden");
+
+
+  } finally {
+
+    submitBtn.disabled =
+      false;
+
+    submitBtn.textContent =
+      "ยืนยันการนัดหมาย";
+
+  }
+
+}
+
+
+/* =========================================================
+   ESCAPE HTML
+========================================================= */
+
+function escapeHtml(value) {
+
+  return String(value || "")
+
+    .replace(
+      /&/g,
+      "&amp;"
+    )
+
+    .replace(
+      /</g,
+      "&lt;"
+    )
+
+    .replace(
+      />/g,
+      "&gt;"
+    )
+
+    .replace(
+      /"/g,
+      "&quot;"
+    )
+
+    .replace(
+      /'/g,
+      "&#039;"
+    );
+
+}
+
+
+/* =========================================================
+   SET MIN DATE
+========================================================= */
 
 window.addEventListener(
   "load",
   function() {
 
+    const dateInput =
+      document.getElementById(
+        "appointmentDate"
+      );
+
+
+    /*
+     * ห้ามเลือกวันย้อนหลัง
+     */
+
+    const now =
+      new Date();
+
+
+    const year =
+      now.getFullYear();
+
+
+    const month =
+      String(
+        now.getMonth() + 1
+      ).padStart(
+        2,
+        "0"
+      );
+
+
+    const day =
+      String(
+        now.getDate()
+      ).padStart(
+        2,
+        "0"
+      );
+
+
+    dateInput.min =
+      year +
+      "-" +
+      month +
+      "-" +
+      day;
+
+
     console.log(
       "ACS LINE Bridge loaded"
     );
 
-    console.log(
-      "LIFF ID:",
-      LIFF_ID
-    );
-
-    console.log(
-      "GAS API:",
-      GAS_API
-    );
-
   }
 );
-
 
 </script>
 
