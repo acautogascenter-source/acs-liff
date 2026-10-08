@@ -2,6 +2,7 @@
 <html lang="th">
 <head>
   <meta charset="UTF-8">
+
   <meta
     name="viewport"
     content="width=device-width, initial-scale=1.0"
@@ -9,37 +10,56 @@
 
   <title>ACS LINE Bridge</title>
 
+  <!-- LINE LIFF SDK -->
   <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
 
   <style>
+
+    * {
+      box-sizing: border-box;
+    }
+
     body {
-      font-family: Arial, sans-serif;
-      padding: 30px 20px;
-      text-align: center;
-      background: #f5f5f5;
+      margin: 0;
+      padding: 20px;
+      font-family:
+        Arial,
+        "Noto Sans Thai",
+        sans-serif;
+      background: #f5f7f8;
+      color: #333;
     }
 
     .box {
+      width: 100%;
       max-width: 500px;
       margin: 40px auto;
-      background: white;
-      padding: 30px;
+      background: #fff;
+      padding: 30px 24px;
       border-radius: 16px;
-      box-shadow: 0 4px 20px rgba(0,0,0,.08);
+      box-shadow:
+        0 4px 20px rgba(0,0,0,.08);
     }
 
     h2 {
       margin-top: 0;
+      margin-bottom: 10px;
+    }
+
+    p {
+      line-height: 1.6;
     }
 
     button {
       width: 100%;
-      padding: 14px;
+      padding: 15px;
+      margin-top: 10px;
       border: 0;
       border-radius: 10px;
       background: #06c755;
       color: white;
       font-size: 18px;
+      font-weight: bold;
       cursor: pointer;
     }
 
@@ -50,41 +70,57 @@
 
     #status {
       margin-top: 20px;
-      line-height: 1.6;
+      padding: 15px;
+      border-radius: 10px;
+      background: #f5f5f5;
+      line-height: 1.7;
       word-break: break-word;
       white-space: pre-wrap;
+      text-align: left;
     }
 
     .success {
-      color: #008f3c;
+      background: #e8f8ee !important;
+      color: #087f35;
     }
 
     .error {
-      color: #d00000;
+      background: #fff0f0 !important;
+      color: #c00000;
     }
+
+    .info {
+      background: #eef7ff !important;
+      color: #155a8a;
+    }
+
   </style>
 </head>
 
+
 <body>
 
-<div class="box">
+  <div class="box">
 
-  <h2>ACS LINE</h2>
+    <h2>💚 ACS LINE</h2>
 
-  <p>เชื่อมต่อ LINE เพื่อใช้งานระบบจองคิว</p>
+    <p>
+      เชื่อมต่อ LINE เพื่อใช้งานระบบจองคิว
+    </p>
 
-  <button
-    id="connectBtn"
-    onclick="connectLINE()"
-  >
-    เชื่อมต่อ LINE
-  </button>
+    <button
+      id="connectBtn"
+      type="button"
+      onclick="connectLINE()"
+    >
+      เชื่อมต่อ LINE
+    </button>
 
-  <div id="status">
-    ยังไม่ได้เชื่อมต่อ LINE
+    <div id="status">
+      ยังไม่ได้เชื่อมต่อ LINE
+    </div>
+
   </div>
-
-</div>
 
 
 <script>
@@ -97,13 +133,16 @@ const LIFF_ID =
   "2011246207-sX1HgP1s";
 
 
+/*
+ * สำคัญมาก
+ * URL นี้ต้องเป็น Web App ของ Code.gs
+ */
 const GAS_API =
-  "const GAS_API =
-  "https://script.google.com/macros/s/AKfycbwztzUCGN0AUy8bXUzG96o60Prt5hoMhZnght_xrlgC2lWfoEvszod_hYv28G8n9qOtuQ/exec";
+  "https://script.google.com/macros/s/AKfycbwztzUCGN0AUy8bXUzG96o60Prt5hoMhZnght_xrlgC2lWfoEvszod_hYV28G8n9qOtuQ/exec";
 
 
 /* =========================================================
-   ELEMENTS
+   ELEMENT
 ========================================================= */
 
 const statusEl =
@@ -131,7 +170,57 @@ function setStatus(message, type) {
 
 
 /* =========================================================
-   MAIN
+   GET REDIRECT URL
+========================================================= */
+
+function getRedirectUri() {
+
+  /*
+   * ใช้ URL ของ GitHub Pages ปัจจุบัน
+   * ไม่ส่ง query/hash เก่ากลับเข้า LIFF
+   */
+
+  return (
+    window.location.origin +
+    window.location.pathname
+  );
+
+}
+
+
+/* =========================================================
+   SEND DATA TO GAS
+========================================================= */
+
+async function sendToGAS(payload) {
+
+  /*
+   * ใช้ text/plain
+   * เพื่อหลีกเลี่ยง CORS preflight
+   */
+
+  await fetch(
+    GAS_API,
+    {
+      method: "POST",
+
+      mode: "no-cors",
+
+      headers: {
+        "Content-Type":
+          "text/plain;charset=utf-8"
+      },
+
+      body:
+        JSON.stringify(payload)
+    }
+  );
+
+}
+
+
+/* =========================================================
+   CONNECT LINE
 ========================================================= */
 
 async function connectLINE() {
@@ -140,14 +229,30 @@ async function connectLINE() {
 
   try {
 
+    /* -----------------------------------------------------
+       STEP 1
+    ----------------------------------------------------- */
+
     setStatus(
       "1. กำลังเริ่ม LIFF...",
-      ""
+      "info"
+    );
+
+
+    console.log(
+      "LIFF ID:",
+      LIFF_ID
+    );
+
+    console.log(
+      "GAS API:",
+      GAS_API
     );
 
 
     /* -----------------------------------------------------
-       LIFF INIT
+       STEP 2
+       INIT LIFF
     ----------------------------------------------------- */
 
     await liff.init({
@@ -157,11 +262,6 @@ async function connectLINE() {
 
     console.log(
       "LIFF initialized"
-    );
-
-    console.log(
-      "LIFF ID:",
-      LIFF_ID
     );
 
     console.log(
@@ -176,6 +276,7 @@ async function connectLINE() {
 
 
     /* -----------------------------------------------------
+       STEP 3
        LOGIN
     ----------------------------------------------------- */
 
@@ -183,12 +284,20 @@ async function connectLINE() {
 
       setStatus(
         "2. กำลังเปิด LINE Login...",
-        ""
+        "info"
       );
 
+      const redirectUri =
+        getRedirectUri();
+
+      console.log(
+        "redirectUri:",
+        redirectUri
+      );
+
+
       liff.login({
-        redirectUri:
-          window.location.href
+        redirectUri: redirectUri
       });
 
       return;
@@ -196,17 +305,24 @@ async function connectLINE() {
 
 
     /* -----------------------------------------------------
-       GET ID TOKEN
+       STEP 4
+       ID TOKEN
     ----------------------------------------------------- */
 
     setStatus(
-      "3. Login สำเร็จ กำลังอ่านข้อมูล LINE...",
-      ""
+      "3. Login สำเร็จ\nกำลังอ่านข้อมูล LINE...",
+      "info"
     );
 
 
     const idToken =
       liff.getIDToken();
+
+
+    console.log(
+      "ID Token exists:",
+      !!idToken
+    );
 
 
     if (!idToken) {
@@ -218,23 +334,19 @@ async function connectLINE() {
     }
 
 
-    console.log(
-      "ID Token exists:",
-      !!idToken
-    );
-
-
     /* -----------------------------------------------------
-       GET PROFILE
+       STEP 5
+       PROFILE
     ----------------------------------------------------- */
 
     setStatus(
       "4. กำลังอ่าน LINE User ID...",
-      ""
+      "info"
     );
 
 
     let profile = null;
+
 
     try {
 
@@ -248,29 +360,47 @@ async function connectLINE() {
 
     } catch (profileError) {
 
-      console.warn(
+      console.error(
         "getProfile error:",
         profileError
+      );
+
+      throw new Error(
+        "ไม่สามารถอ่านข้อมูล LINE Profile ได้"
       );
 
     }
 
 
     const userId =
-      profile && profile.userId
+      profile &&
+      profile.userId
         ? profile.userId
         : "";
 
 
     const displayName =
-      profile && profile.displayName
+      profile &&
+      profile.displayName
         ? profile.displayName
+        : "";
+
+
+    const pictureUrl =
+      profile &&
+      profile.pictureUrl
+        ? profile.pictureUrl
         : "";
 
 
     console.log(
       "LINE User ID:",
       userId
+    );
+
+    console.log(
+      "LINE Display Name:",
+      displayName
     );
 
 
@@ -284,26 +414,35 @@ async function connectLINE() {
 
 
     /* -----------------------------------------------------
-       SEND TO GOOGLE APPS SCRIPT
+       STEP 6
+       SAVE TO GOOGLE APPS SCRIPT
     ----------------------------------------------------- */
 
     setStatus(
-      "5. กำลังบันทึกข้อมูลลงระบบ...",
-      ""
+      "5. กำลังบันทึกข้อมูล LINE ลงระบบ...",
+      "info"
     );
 
 
     const payload = {
 
-      action: "saveLineUser",
+      action:
+        "saveLineUser",
 
-      idToken: idToken,
+      idToken:
+        idToken,
 
-      userId: userId,
+      userId:
+        userId,
 
-      displayName: displayName,
+      displayName:
+        displayName,
 
-      source: "github-liff-bridge",
+      pictureUrl:
+        pictureUrl,
+
+      source:
+        "github-liff-bridge",
 
       timestamp:
         new Date().toISOString()
@@ -317,46 +456,46 @@ async function connectLINE() {
     );
 
 
-    /*
-      ใช้ text/plain เพื่อไม่ให้ browser
-      ทำ CORS preflight OPTIONS request
-    */
-
-    await fetch(
-      GAS_API,
-      {
-        method: "POST",
-
-        mode: "no-cors",
-
-        headers: {
-          "Content-Type":
-            "text/plain;charset=utf-8"
-        },
-
-        body:
-          JSON.stringify(payload)
-      }
+    await sendToGAS(
+      payload
     );
 
 
     /* -----------------------------------------------------
+       STEP 7
        SUCCESS
     ----------------------------------------------------- */
 
     setStatus(
+
       "6. เชื่อมต่อ LINE สำเร็จ ✅\n\n" +
+
+      "ชื่อ: " +
+      displayName +
+      "\n\n" +
+
       "LINE User ID:\n" +
       userId +
       "\n\n" +
-      "สามารถกลับไปใช้งานระบบจองคิวได้",
+
+      "บันทึกข้อมูลเข้าสู่ระบบแล้ว",
+
       "success"
+
     );
 
 
     console.log(
       "LINE connection completed"
     );
+
+
+    /*
+     * ไม่ redirect ทันที
+     * เพื่อให้ตรวจสอบผลบนหน้าจอก่อนได้
+     */
+
+    connectBtn.disabled = false;
 
 
   } catch (error) {
@@ -368,9 +507,18 @@ async function connectLINE() {
 
 
     setStatus(
+
       "LINE เชื่อมต่อไม่สำเร็จ\n\n" +
-      (error.message || error),
+
+      (
+        error &&
+        error.message
+          ? error.message
+          : String(error)
+      ),
+
       "error"
+
     );
 
 
@@ -382,34 +530,44 @@ async function connectLINE() {
 
 
 /* =========================================================
-   AUTO INIT CHECK
+   PAGE LOAD
 ========================================================= */
 
 window.addEventListener(
   "load",
-  async function() {
+  function() {
 
-    try {
+    console.log(
+      "================================"
+    );
 
-      console.log(
-        "ACS LINE Bridge loaded"
-      );
+    console.log(
+      "ACS LINE Bridge Loaded"
+    );
 
-      console.log(
-        "LIFF ID:",
-        LIFF_ID
-      );
+    console.log(
+      "LIFF ID:",
+      LIFF_ID
+    );
 
-      console.log(
-        "GAS API:",
-        GAS_API
-      );
+    console.log(
+      "GAS API:",
+      GAS_API
+    );
 
-    } catch (error) {
+    console.log(
+      "Current URL:",
+      window.location.href
+    );
 
-      console.error(error);
+    console.log(
+      "Redirect URL:",
+      getRedirectUri()
+    );
 
-    }
+    console.log(
+      "================================"
+    );
 
   }
 );
