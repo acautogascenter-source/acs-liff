@@ -2,434 +2,232 @@
 <html lang="th">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-
-<title>ACS LINE</title>
-
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ACS LINE - ระบบจองคิว</title>
 <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
-
 <style>
-*{
-  box-sizing:border-box;
-}
-
-:root{
-  --red:#c8102e;
-  --red2:#ed1c3b;
-  --dark:#161616;
-  --gray:#777;
-  --bg:#f7f7f7;
-  --white:#fff;
-  --line:#ededed;
-}
-
-body{
-  margin:0;
-  font-family:
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    "Noto Sans Thai",
-    Arial,
-    sans-serif;
-  color:var(--dark);
-  background:
-    radial-gradient(circle at 15% 10%,rgba(200,16,46,.10),transparent 30%),
-    radial-gradient(circle at 90% 80%,rgba(200,16,46,.07),transparent 30%),
-    #f7f7f7;
-  min-height:100vh;
-}
-
-.page{
-  min-height:100vh;
-  padding:24px 18px 40px;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-}
-
-.card{
-  width:100%;
-  max-width:520px;
-  background:rgba(255,255,255,.96);
-  border:1px solid rgba(0,0,0,.05);
-  border-radius:30px;
-  padding:34px 25px 28px;
-  box-shadow:
-    0 25px 70px rgba(0,0,0,.10),
-    0 4px 15px rgba(0,0,0,.04);
-  position:relative;
-  overflow:hidden;
-}
-
-.card:before{
-  content:"";
-  position:absolute;
-  width:180px;
-  height:180px;
-  right:-90px;
-  top:-90px;
-  background:rgba(200,16,46,.10);
-  border-radius:50%;
-}
-
-.logo{
-  width:76px;
-  height:76px;
-  margin:0 auto 18px;
-  border-radius:24px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  color:#fff;
-  font-size:34px;
-  background:linear-gradient(145deg,var(--red2),var(--red));
-  box-shadow:0 12px 28px rgba(200,16,46,.28);
-  position:relative;
-}
-
-.logo:after{
-  content:"";
-  position:absolute;
-  inset:6px;
-  border:1px solid rgba(255,255,255,.35);
-  border-radius:19px;
-}
-
-h1{
-  margin:0;
-  text-align:center;
-  font-size:29px;
-  letter-spacing:-.5px;
-}
-
-.subtitle{
-  text-align:center;
-  color:var(--gray);
-  margin:10px 0 26px;
-  line-height:1.7;
-}
-
-.badge{
-  width:max-content;
-  margin:0 auto 24px;
-  padding:7px 13px;
-  border-radius:99px;
-  background:#fff0f3;
-  color:var(--red);
-  font-size:13px;
-  font-weight:700;
-}
-
-.connect{
-  width:100%;
-  border:0;
-  padding:17px 20px;
-  border-radius:17px;
-  background:linear-gradient(135deg,var(--red2),var(--red));
-  color:white;
-  font-size:18px;
-  font-weight:800;
-  cursor:pointer;
-  box-shadow:0 12px 25px rgba(200,16,46,.24);
-  transition:.2s;
-}
-
-.connect:active{
-  transform:scale(.98);
-}
-
-.connect:disabled{
-  opacity:.65;
-}
-
-.status{
-  margin-top:20px;
-  padding:17px;
-  border-radius:17px;
-  background:#fafafa;
-  color:#555;
-  line-height:1.7;
-  white-space:pre-wrap;
-  word-break:break-word;
-  font-size:14px;
-}
-
-.success{
-  background:#f0faf4;
-  color:#176b3a;
-  border:1px solid #d8f0e0;
-}
-
-.error{
-  background:#fff2f3;
-  color:#a50019;
-  border:1px solid #ffd6dc;
-}
-
-.profile{
-  display:none;
-  margin-top:20px;
-  padding:18px;
-  border-radius:20px;
-  background:linear-gradient(135deg,#fff5f6,#fff);
-  border:1px solid #f5d5da;
-}
-
-.profile-name{
-  font-size:18px;
-  font-weight:800;
-}
-
-.profile-id{
-  margin-top:7px;
-  color:#777;
-  font-size:12px;
-  word-break:break-all;
-}
-
-.booking{
-  display:none;
-  margin-top:16px;
-}
-
-.booking button{
-  width:100%;
-  border:0;
-  padding:16px;
-  border-radius:16px;
-  background:#151515;
-  color:white;
-  font-size:17px;
-  font-weight:800;
-  cursor:pointer;
-  transition:.2s;
-}
-
-.booking button:hover{
-  background:var(--red);
-}
-
-.footer{
-  text-align:center;
-  color:#999;
-  font-size:11px;
-  margin-top:25px;
-}
+*{box-sizing:border-box}
+body{margin:0;background:#f3f5f7;color:#222;font-family:Arial,"Noto Sans Thai",sans-serif}
+.container{max-width:520px;margin:auto;padding:18px}
+.card{background:#fff;border-radius:18px;padding:22px;margin:16px 0;box-shadow:0 4px 20px rgba(0,0,0,.08)}
+h1,h2{margin:0 0 10px}h1{text-align:center;font-size:25px}
+.subtitle{text-align:center;color:#666;line-height:1.6}
+button{width:100%;border:0;border-radius:12px;padding:14px;font-size:17px;cursor:pointer;margin-top:10px}
+button:disabled{opacity:.5;cursor:wait}.line-btn{background:#06c755;color:#fff}.submit-btn{background:#111;color:#fff}.secondary{background:#eee;color:#222}
+label{display:block;font-weight:bold;margin:14px 0 6px}
+input,select,textarea{width:100%;padding:12px;border:1px solid #ddd;border-radius:10px;font-size:16px;background:#fff}
+textarea{min-height:90px;resize:vertical}.status{margin-top:16px;padding:12px;border-radius:10px;background:#f5f5f5;line-height:1.6;white-space:pre-wrap;word-break:break-word}
+.success{background:#e9f9ef!important;color:#087f3e}.error{background:#fff0f0!important;color:#b00020}
+.user-info{background:#f1f7ff;border-radius:12px;padding:14px;margin:12px 0 18px;font-size:14px;word-break:break-word}
+.hidden{display:none!important}.slot-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:8px}
+.slot{padding:11px 5px;border:1px solid #ddd;border-radius:10px;background:#fff;text-align:center}
+.slot.available{border-color:#06c755}.slot.full{opacity:.45}.slot.selected{background:#111;color:#fff;border-color:#111}
+.slot small{display:block;font-size:11px;margin-top:3px}.result{background:#ecfff3;padding:16px;border-radius:12px;margin-top:16px;line-height:1.8}
+hr{border:0;border-top:1px solid #eee;margin:22px 0}.muted{color:#777;font-size:13px}
 </style>
 </head>
-
 <body>
+<div class="container">
 
-<div class="page">
-
-<div class="card">
-
-  <div class="logo">♥</div>
-
-  <div class="badge">ACS SERVICE CENTER</div>
-
-  <h1>ACS LINE</h1>
-
-  <div class="subtitle">
-    เชื่อมต่อ LINE ของคุณ<br>
-    เพื่อใช้บริการจองคิวและนัดหมาย
-  </div>
-
-  <button
-    id="connectBtn"
-    class="connect"
-    onclick="connectLINE()">
-    เชื่อมต่อ LINE
-  </button>
-
-  <div id="status" class="status">
-    พร้อมเชื่อมต่อ LINE
-  </div>
-
-  <div id="profile" class="profile">
-    <div class="profile-name" id="profileName"></div>
-    <div class="profile-id" id="profileId"></div>
-  </div>
-
-  <div id="booking" class="booking">
-
-    <button onclick="goBooking()">
-      📅 &nbsp; จองคิว / นัดหมาย
-    </button>
-
-  </div>
-
-  <div class="footer">
-    ACS Service Center · LINE Booking
-  </div>
-
+<div class="card" id="connectCard">
+<h1>ACS LINE</h1>
+<p class="subtitle">เชื่อมต่อ LINE เพื่อใช้งานระบบจองคิวและนัดหมาย</p>
+<button id="connectBtn" class="line-btn" onclick="connectLINE()">เชื่อมต่อ LINE</button>
+<div id="status" class="status">ยังไม่ได้เชื่อมต่อ LINE</div>
 </div>
 
+<div class="card hidden" id="bookingCard">
+<h2>📅 จองคิว / นัดหมาย</h2>
+<div id="userInfo" class="user-info"></div>
+
+<label>วันที่นัดหมาย</label>
+<input type="date" id="date" required>
+
+<label>เวลานัดหมาย</label>
+<div id="slots" class="slot-grid"></div>
+<input type="hidden" id="time">
+
+<label>ชื่อผู้ติดต่อ</label>
+<input id="customer" placeholder="ชื่อ-นามสกุล" required>
+
+<label>เบอร์โทรศัพท์</label>
+<input id="phone" type="tel" inputmode="numeric" placeholder="08xxxxxxxx" required>
+
+<label>ทะเบียนรถ</label>
+<input id="plate" placeholder="เช่น กข 1234" required>
+
+<label>จังหวัด</label>
+<input id="province" placeholder="เช่น กรุงเทพมหานคร">
+
+<label>ยี่ห้อรถ</label>
+<input id="brand" placeholder="เช่น Toyota">
+
+<label>รุ่นรถ</label>
+<input id="model" placeholder="เช่น Altis">
+
+<label>บริการ / รายละเอียด</label>
+<textarea id="detail" placeholder="เช่น ตรวจเช็กระบบแก๊ส / อาการรถ / รายละเอียดเพิ่มเติม"></textarea>
+
+<button id="submitBtn" class="submit-btn" onclick="submitBooking()">ยืนยันการนัดหมาย</button>
+<div id="bookingResult" class="result hidden"></div>
+</div>
+
+<div class="card hidden" id="manageCard">
+<h2>✏️ แก้ไขนัดหมาย</h2>
+<p class="muted">ใช้เลขที่จองและเบอร์โทรศัพท์เดิม เพื่อค้นหารายการ</p>
+
+<label>เลขที่จอง</label>
+<input id="findBookingId" placeholder="เช่น ACS-20261008...">
+
+<label>เบอร์โทรศัพท์</label>
+<input id="findPhone" type="tel" inputmode="numeric" placeholder="08xxxxxxxx">
+
+<button class="secondary" id="findBtn" onclick="findBooking()">ค้นหาการจอง</button>
+
+<div id="editForm" class="hidden">
+<hr><div id="editSummary" class="user-info"></div>
+
+<label>วันที่นัดหมาย</label>
+<input type="date" id="editDate">
+
+<label>เวลา</label>
+<div id="editSlots" class="slot-grid"></div>
+<input type="hidden" id="editTime">
+
+<label>ชื่อผู้ติดต่อ</label><input id="editCustomer">
+<label>เบอร์โทรศัพท์</label><input id="editPhone" type="tel">
+<label>ทะเบียนรถ</label><input id="editPlate">
+<label>จังหวัด</label><input id="editProvince">
+<label>ยี่ห้อรถ</label><input id="editBrand">
+<label>รุ่นรถ</label><input id="editModel">
+<label>บริการ / รายละเอียด</label><textarea id="editDetail"></textarea>
+
+<button class="submit-btn" id="updateBtn" onclick="updateBooking()">บันทึกการแก้ไข</button>
+<div id="editResult" class="result hidden"></div>
+</div>
+</div>
 </div>
 
 <script>
+const LIFF_ID="2011246207-sX1HgP1s";
+const GAS_API="https://script.google.com/macros/s/AKfycbwztzUCGN0AUy8bXUzG96o60Prt5hoMhZnght_xrlgC2lWfoEvszod_hYv28G8n9qOtuQ/exec";
+let currentUser={userId:"",displayName:"",idToken:""};
 
-const LIFF_ID =
-  "2011246207-sX1HgP1s";
+const $=id=>document.getElementById(id);
+const esc=v=>String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
 
-const GAS_API =
-  "https://script.google.com/macros/s/AKfycbwztzUCGN0AUy8bXUzG96o60Prt5hoMhZnght_xrlgC2lWfoEvszod_hYv28G8n9qOtuQ/exec";
+function setStatus(msg,type=""){ $("status").textContent=msg; $("status").className="status "+type; }
 
-let currentUserId = "";
-let currentDisplayName = "";
-
-const statusEl =
-  document.getElementById("status");
-
-const connectBtn =
-  document.getElementById("connectBtn");
-
-function status(text,type=""){
-  statusEl.textContent = text;
-  statusEl.className = "status";
-
-  if(type){
-    statusEl.classList.add(type);
-  }
+function api(action,data={}){
+  return new Promise((resolve,reject)=>{
+    const cb="acs_cb_"+Date.now()+"_"+Math.floor(Math.random()*10000);
+    const script=document.createElement("script");
+    const timer=setTimeout(()=>{cleanup();reject(new Error("Apps Script ไม่ตอบกลับภายใน 20 วินาที"));},20000);
+    function cleanup(){clearTimeout(timer);delete window[cb];script.remove();}
+    window[cb]=(result)=>{cleanup();resolve(result||{success:false,message:"ไม่พบผลลัพธ์"});};
+    script.onerror=()=>{cleanup();reject(new Error("เชื่อมต่อ Apps Script ไม่สำเร็จ"));};
+    script.src=GAS_API+"?action="+encodeURIComponent(action)+"&data="+encodeURIComponent(JSON.stringify(data))+"&callback="+cb;
+    document.body.appendChild(script);
+  });
 }
 
 async function connectLINE(){
-
-  connectBtn.disabled = true;
-
+  $("connectBtn").disabled=true;
   try{
+    setStatus("1. กำลังเริ่ม LIFF...");
+    await Promise.race([
+      liff.init({liffId:LIFF_ID}),
+      new Promise((_,rej)=>setTimeout(()=>rej(new Error("LIFF init timeout 20 วินาที")),20000))
+    ]);
 
-    status("กำลังเชื่อมต่อ LINE...");
+    if(!liff.isLoggedIn()){setStatus("2. กำลังเปิด LINE Login...");liff.login({redirectUri:window.location.href});return;}
 
-    await liff.init({
-      liffId: LIFF_ID
-    });
+    setStatus("3. Login สำเร็จ กำลังอ่านข้อมูล LINE...");
+    const idToken=liff.getIDToken();
+    const profile=await liff.getProfile();
+    if(!idToken||!profile?.userId)throw new Error("ไม่สามารถอ่าน LINE User ID ได้");
 
-    if(!liff.isLoggedIn()){
+    currentUser={userId:profile.userId,displayName:profile.displayName||"",idToken};
+    setStatus("4. กำลังบันทึก LINE User...");
+    const saved=await api("saveLineUser",currentUser);
+    if(!saved.success)throw new Error(saved.message||"บันทึก LINE User ไม่สำเร็จ");
 
-      status("กำลังเปิด LINE Login...");
-
-      liff.login({
-        redirectUri:window.location.href
-      });
-
-      return;
-    }
-
-    status("กำลังอ่านข้อมูล LINE...");
-
-    const profile =
-      await liff.getProfile();
-
-    currentUserId =
-      profile.userId || "";
-
-    currentDisplayName =
-      profile.displayName || "ลูกค้า ACS";
-
-    if(!currentUserId){
-      throw new Error(
-        "ไม่พบ LINE User ID"
-      );
-    }
-
-    const idToken =
-      liff.getIDToken() || "";
-
-    status(
-      "กำลังบันทึกข้อมูล..."
-    );
-
-    const payload = {
-
-      action:"saveLineUser",
-
-      userId:currentUserId,
-
-      displayName:currentDisplayName,
-
-      idToken:idToken,
-
-      source:"github-liff-bridge",
-
-      timestamp:new Date().toISOString()
-
-    };
-
-    /*
-     * ใช้ no-cors เพื่อให้ GitHub Pages
-     * ส่งข้อมูลเข้า Google Apps Script ได้
-     */
-    await fetch(
-      GAS_API,
-      {
-        method:"POST",
-        mode:"no-cors",
-        headers:{
-          "Content-Type":
-            "text/plain;charset=utf-8"
-        },
-        body:JSON.stringify(payload)
-      }
-    );
-
-    status(
-      "เชื่อมต่อ LINE สำเร็จ ✓\n" +
-      "สามารถจองคิวได้แล้ว",
-      "success"
-    );
-
-    document.getElementById(
-      "profile"
-    ).style.display = "block";
-
-    document.getElementById(
-      "profileName"
-    ).textContent =
-      "สวัสดีคุณ " +
-      currentDisplayName;
-
-    document.getElementById(
-      "profileId"
-    ).textContent =
-      "LINE User ID: " +
-      currentUserId;
-
-    document.getElementById(
-      "booking"
-    ).style.display = "block";
-
-    connectBtn.textContent =
-      "✓ เชื่อมต่อแล้ว";
-
-  }catch(error){
-
-    console.error(error);
-
-    status(
-      "LINE เชื่อมต่อไม่สำเร็จ\n\n" +
-      (error.message || error),
-      "error"
-    );
-
-    connectBtn.disabled = false;
-  }
+    $("userInfo").innerHTML="<b>LINE:</b> "+esc(currentUser.displayName)+"<br><b>User ID:</b> "+esc(currentUser.userId);
+    setStatus("5. เชื่อมต่อ LINE สำเร็จ ✅","success");
+    $("connectBtn").textContent="เชื่อมต่อแล้ว ✓";$("connectBtn").style.display="none";
+    $("bookingCard").classList.remove("hidden");$("manageCard").classList.remove("hidden");
+    setTodayMin();$("date").value=todayString();loadSlots("date","slots","time");
+  }catch(err){console.error(err);setStatus("LINE เชื่อมต่อไม่สำเร็จ\n\n"+(err.message||err),"error");$("connectBtn").disabled=false;}
 }
 
-function goBooking(){
+function todayString(){const d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
+function setTodayMin(){$("date").min=todayString();$("editDate").min=todayString();}
+$("date").addEventListener("change",()=>loadSlots("date","slots","time"));
+$("editDate").addEventListener("change",()=>loadSlots("editDate","editSlots","editTime"));
 
-  const url =
-    "booking.html" +
-    "?userId=" +
-    encodeURIComponent(currentUserId) +
-    "&displayName=" +
-    encodeURIComponent(currentDisplayName);
-
-  window.location.href = url;
+async function loadSlots(dateId,slotsId,timeId){
+  const date=$(dateId).value;if(!date){$(slotsId).innerHTML="";return}
+  $(slotsId).innerHTML="<div class='muted'>กำลังโหลดเวลา...</div>";
+  try{
+    const r=await api("getAvailableTimes",{date});
+    if(!r.success)throw new Error(r.message||"โหลดเวลาไม่สำเร็จ");
+    $(slotsId).innerHTML=r.times.map(x=>{
+      const cls=x.available?"available":"full",text=x.available?("เหลือ "+x.remain):(x.reason==="passed"?"ผ่านแล้ว":"เต็ม");
+      return `<button type="button" class="slot ${cls}" ${x.available?"":"disabled"} onclick="selectSlot('${slotsId}','${timeId}','${x.time}',this)">${x.time}<small>${text}</small></button>`;
+    }).join("");
+  }catch(e){$(slotsId).innerHTML="<div class='error'>"+esc(e.message)+"</div>";}
 }
 
+function selectSlot(slotsId,timeId,time,el){
+  $(timeId).value=time;[...$(slotsId).querySelectorAll(".slot")].forEach(x=>x.classList.remove("selected"));el.classList.add("selected");
+}
+
+async function submitBooking(){
+  if(!currentUser.userId){alert("กรุณาเชื่อมต่อ LINE ก่อน");return}
+  const data={lineUserId:currentUser.userId,customer:$("customer").value,phone:$("phone").value,plate:$("plate").value,province:$("province").value,brand:$("brand").value,model:$("model").value,date:$("date").value,time:$("time").value,detail:$("detail").value};
+  if(!data.customer||!data.phone||!data.plate||!data.date||!data.time){alert("กรุณากรอกข้อมูลที่จำเป็นให้ครบ และเลือกเวลา");return}
+  $("submitBtn").disabled=true;$("submitBtn").textContent="กำลังบันทึก...";
+  try{
+    const r=await api("createAppointment",data);
+    if(!r.success){showResult("bookingResult","❌ "+(r.message||"จองไม่สำเร็จ"),true);return}
+    showResult("bookingResult","<b>✅ จองคิวสำเร็จ</b><br><br>เลขที่จอง: <b>"+esc(r.bookingId)+"</b><br>วันที่: "+esc(r.appointment.date)+"<br>เวลา: "+esc(r.appointment.time)+"<br>เบอร์: "+esc(r.appointment.phone)+"<br>สถานะ LINE: "+(r.lineSent?"ส่งแล้ว ✅":"ส่งไม่สำเร็จ ⚠️")+"<br><span class='muted'>"+esc(r.lineMessage||"")+"</span>");
+    $("findBookingId").value=r.bookingId;$("findPhone").value=data.phone;
+    ["customer","phone","plate","province","brand","model","detail"].forEach(id=>$(id).value="");
+    $("date").value=todayString();$("time").value="";loadSlots("date","slots","time");
+  }catch(e){showResult("bookingResult","❌ "+e.message,true)}
+  finally{$("submitBtn").disabled=false;$("submitBtn").textContent="ยืนยันการนัดหมาย";}
+}
+
+async function findBooking(){
+  const bookingId=$("findBookingId").value.trim(),phone=$("findPhone").value.trim();
+  if(!bookingId||!phone){alert("กรุณากรอกเลขที่จองและเบอร์โทร");return}
+  $("findBtn").disabled=true;$("findBtn").textContent="กำลังค้นหา...";
+  try{
+    const r=await api("findAppointment",{bookingId,phone});
+    if(!r.success){showResult("editResult","❌ "+r.message,true);$("editForm").classList.add("hidden");return}
+    const a=r.appointment;$("editForm").classList.remove("hidden");
+    $("editSummary").innerHTML="<b>เลขที่จอง:</b> "+esc(a.bookingId)+"<br><b>สถานะ:</b> "+esc(a.status);
+    $("editDate").value=a.date;$("editCustomer").value=a.customer;$("editPhone").value=a.phone;$("editPlate").value=a.plate;$("editProvince").value=a.province;$("editBrand").value=a.brand;$("editModel").value=a.model;$("editDetail").value=a.detail;
+    await loadSlots("editDate","editSlots","editTime");$("editTime").value=a.time;
+    [...$("editSlots").querySelectorAll(".slot")].forEach(b=>{if(b.textContent.trim().startsWith(a.time))b.classList.add("selected")});
+    $("editResult").classList.add("hidden");
+  }catch(e){showResult("editResult","❌ "+e.message,true)}
+  finally{$("findBtn").disabled=false;$("findBtn").textContent="ค้นหาการจอง";}
+}
+
+async function updateBooking(){
+  const data={bookingId:$("findBookingId").value.trim(),phone:$("findPhone").value.trim(),customer:$("editCustomer").value,plate:$("editPlate").value,province:$("editProvince").value,brand:$("editBrand").value,model:$("editModel").value,date:$("editDate").value,time:$("editTime").value,detail:$("editDetail").value};
+  if(!data.bookingId||!data.phone||!data.customer||!data.plate||!data.date||!data.time){alert("กรุณากรอกข้อมูลให้ครบ");return}
+  $("updateBtn").disabled=true;$("updateBtn").textContent="กำลังบันทึก...";
+  try{
+    const r=await api("updateAppointment",data);
+    if(!r.success){showResult("editResult","❌ "+r.message,true);return}
+    showResult("editResult","<b>✅ แก้ไขนัดหมายสำเร็จ</b><br><br>เลขที่จอง: <b>"+esc(r.bookingId)+"</b><br>วันที่: "+esc(r.appointment.date)+"<br>เวลา: "+esc(r.appointment.time)+"<br>เบอร์: "+esc(r.appointment.phone)+"<br>LINE: "+(r.lineSent?"ส่งแจ้งเตือนแล้ว ✅":"ส่งแจ้งเตือนไม่สำเร็จ ⚠️"));
+  }catch(e){showResult("editResult","❌ "+e.message,true)}
+  finally{$("updateBtn").disabled=false;$("updateBtn").textContent="บันทึกการแก้ไข";}
+}
+
+function showResult(id,html,error=false){$(id).innerHTML=html;$(id).classList.remove("hidden");$(id).classList.toggle("error",error);if(!error)$(id).classList.add("success");}
 </script>
-
 </body>
 </html>
