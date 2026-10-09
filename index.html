@@ -7,38 +7,45 @@
 <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
 <style>
 *{box-sizing:border-box}
-body{margin:0;background:#f3f5f7;color:#222;font-family:Arial,"Noto Sans Thai",sans-serif}
-.container{max-width:520px;margin:auto;padding:18px}
-.card{background:#fff;border-radius:18px;padding:22px;margin:16px 0;box-shadow:0 4px 20px rgba(0,0,0,.08)}
-h1,h2{margin:0 0 10px}h1{text-align:center;font-size:25px}
-.subtitle{text-align:center;color:#666;line-height:1.6}
-button{width:100%;border:0;border-radius:12px;padding:14px;font-size:17px;cursor:pointer;margin-top:10px}
-button:disabled{opacity:.5;cursor:wait}.line-btn{background:#06c755;color:#fff}.submit-btn{background:#111;color:#fff}.secondary{background:#eee;color:#222}
-label{display:block;font-weight:bold;margin:14px 0 6px}
-input,select,textarea{width:100%;padding:12px;border:1px solid #ddd;border-radius:10px;font-size:16px;background:#fff}
-textarea{min-height:90px;resize:vertical}.status{margin-top:16px;padding:12px;border-radius:10px;background:#f5f5f5;line-height:1.6;white-space:pre-wrap;word-break:break-word}
+:root{--red:#b51224;--red2:#e21d35;--ink:#241b1c;--muted:#796d6e;--line:#f0d9dc;--soft:#fff5f6}
+body{margin:0;background:linear-gradient(180deg,#fff 0%,#fff5f6 52%,#fff 100%);color:var(--ink);font-family:Arial,"Noto Sans Thai",sans-serif}
+.container{max-width:560px;margin:auto;padding:16px}
+.hero{position:relative;overflow:hidden;background:linear-gradient(135deg,#7c0714,#c4142a 58%,#ef4655);color:#fff;border-radius:26px;padding:26px 22px;margin:6px 0 18px;box-shadow:0 14px 35px #b5122430;animation:rise .65s ease both}
+.hero:after{content:"✦";position:absolute;right:22px;top:7px;font-size:92px;color:#ffffff18;animation:float 4s ease-in-out infinite}
+.brandmark{font-size:12px;letter-spacing:3px;font-weight:800;opacity:.85}.hero h1{font-size:28px;margin:8px 0 5px;letter-spacing:.3px}.hero p{margin:0;line-height:1.65;color:#ffe9ec;max-width:85%}
+.card{background:#fff;border:1px solid #f5e4e6;border-radius:22px;padding:21px;margin:15px 0;box-shadow:0 8px 28px #7e0a1510;animation:rise .5s ease both}
+h1,h2{margin:0 0 10px}h2{font-size:20px}.subtitle{text-align:center;color:var(--muted);line-height:1.7}
+button{width:100%;border:0;border-radius:14px;padding:14px;font-size:16px;font-weight:700;cursor:pointer;margin-top:10px;transition:transform .2s,box-shadow .2s,background .2s}
+button:active{transform:scale(.985)}button:disabled{opacity:.5;cursor:wait}.line-btn{background:#06c755;color:#fff}.submit-btn{background:linear-gradient(110deg,#a90d20,#e32138);color:#fff;box-shadow:0 8px 18px #b512242b;animation:pulse 2.8s infinite}.secondary{background:#fff2f3;color:var(--red);border:1px solid #f2cbd0}
+label{display:block;font-weight:700;margin:14px 0 6px;font-size:14px}
+input,select,textarea{width:100%;padding:13px;border:1px solid #eadadd;border-radius:12px;font-size:16px;background:#fff;color:var(--ink);outline:none;transition:border .2s,box-shadow .2s}
+input:focus,select:focus,textarea:focus{border-color:var(--red2);box-shadow:0 0 0 3px #e21d3515}
+textarea{min-height:90px;resize:vertical}.status{margin-top:16px;padding:12px;border-radius:12px;background:#fff5f6;line-height:1.6;white-space:pre-wrap;word-break:break-word}
 .success{background:#e9f9ef!important;color:#087f3e}.error{background:#fff0f0!important;color:#b00020}
-.user-info{background:#f1f7ff;border-radius:12px;padding:14px;margin:12px 0 18px;font-size:14px;word-break:break-word}
+.user-info{background:#fff6f7;border:1px solid #f5dfe2;border-radius:12px;padding:12px;margin:12px 0 18px;font-size:14px;color:#6e343a}
 .hidden{display:none!important}.slot-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:8px}
-.slot{padding:11px 5px;border:1px solid #ddd;border-radius:10px;background:#fff;text-align:center}
-.slot.available{border-color:#06c755}.slot.full{opacity:.45}.slot.selected{background:#111;color:#fff;border-color:#111}
-.slot small{display:block;font-size:11px;margin-top:3px}.result{background:#ecfff3;padding:16px;border-radius:12px;margin-top:16px;line-height:1.8}
-hr{border:0;border-top:1px solid #eee;margin:22px 0}.muted{color:#777;font-size:13px}
+.slot{padding:12px 5px;border:1px solid #ecdadd;border-radius:12px;background:#fff;text-align:center;margin:0;font-size:15px}
+.slot.available{border-color:#e3a2aa;color:var(--red)}.slot.full{opacity:.4}.slot.selected{background:var(--red);color:#fff;border-color:var(--red);box-shadow:0 5px 14px #b5122425}
+.slot small{display:block;font-size:11px;margin-top:4px}.result{background:#fff6f7;border:1px solid #f3dadd;padding:16px;border-radius:14px;margin-top:16px;line-height:1.8}
+.section-kicker{color:var(--red);font-size:11px;letter-spacing:2px;font-weight:800;margin-bottom:5px}.service-note{font-size:12px;color:var(--muted);margin-top:6px}
+hr{border:0;border-top:1px solid #f1dfe1;margin:22px 0}.muted{color:#867779;font-size:13px}
+@keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}@keyframes float{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(8px) rotate(8deg)}}@keyframes pulse{0%,100%{box-shadow:0 8px 18px #b512242b}50%{box-shadow:0 8px 24px #b5122455}}
 </style>
 </head>
 <body>
 <div class="container">
 
+<div class="hero"><div class="brandmark">ACS SERVICE CENTER</div><h1>Premium Booking</h1><p>ระบบจองคิวและจัดการนัดหมาย<br>บริการดูแลรถยนต์อย่างมืออาชีพ</p></div>
 <div class="card" id="connectCard">
-<h1>ACS LINE</h1>
-<p class="subtitle">เชื่อมต่อ LINE เพื่อใช้งานระบบจองคิวและนัดหมาย</p>
+<h2 style="text-align:center">ยินดีต้อนรับสู่ ACS</h2>
+<p class="subtitle">เชื่อมต่อ LINE เพื่อจองคิว ตรวจสอบ และแก้ไขนัดหมาย</p>
 <button id="connectBtn" class="line-btn" onclick="connectLINE()">เชื่อมต่อ LINE</button>
 <div id="status" class="status">ยังไม่ได้เชื่อมต่อ LINE</div>
 </div>
 
 <div class="card hidden" id="bookingCard">
 <h2>📅 จองคิว / นัดหมาย</h2>
-<div id="userInfo" class="user-info"></div>
+<div id="userInfo" class="user-info">เชื่อมต่อ LINE สำเร็จแล้ว เลือกบริการและเวลาที่สะดวกได้เลย</div>
 
 <label>วันที่นัดหมาย</label>
 <input type="date" id="date" required>
@@ -65,8 +72,13 @@ hr{border:0;border-top:1px solid #eee;margin:22px 0}.muted{color:#777;font-size:
 <label>รุ่นรถ</label>
 <input id="model" placeholder="เช่น Altis">
 
-<label>บริการ / รายละเอียด</label>
-<textarea id="detail" placeholder="เช่น ตรวจเช็กระบบแก๊ส / อาการรถ / รายละเอียดเพิ่มเติม"></textarea>
+<label>เลือกงานบริการ</label>
+<select id="service" required>
+<option value="">— เลือกบริการที่ต้องการ —</option>
+<option>ตรวจเช็กระบบแก๊ส</option><option>ติดตั้งแก๊ส</option><option>ซ่อมบำรุงระบบแก๊ส</option><option>ตรวจเช็กเครื่องยนต์</option><option>จูนระบบแก๊ส</option><option>เปลี่ยนอะไหล่ / อุปกรณ์</option><option>ตรวจเช็กก่อนเดินทาง</option><option>บริการอื่น ๆ</option>
+</select><div class="service-note">เลือกประเภทงานก่อน แล้วระบุอาการหรือรายละเอียดเพิ่มเติมด้านล่าง</div>
+<label>รายละเอียดเพิ่มเติม</label>
+<textarea id="detail" placeholder="อาการรถ / รายละเอียดเพิ่มเติม (ถ้ามี)"></textarea>
 
 <button id="submitBtn" class="submit-btn" onclick="submitBooking()">ยืนยันการนัดหมาย</button>
 <div id="bookingResult" class="result hidden"></div>
@@ -74,13 +86,13 @@ hr{border:0;border-top:1px solid #eee;margin:22px 0}.muted{color:#777;font-size:
 
 <div class="card hidden" id="manageCard">
 <h2>✏️ แก้ไขนัดหมาย</h2>
-<p class="muted">ใช้เลขที่จองและเบอร์โทรศัพท์เดิม เพื่อค้นหารายการ</p>
+<p class="muted">ค้นหาด้วยเบอร์โทรศัพท์ที่ใช้จองได้เลย หากมีหลายรายการจะแสดงรายการล่าสุด</p>
 
-<label>เลขที่จอง</label>
-<input id="findBookingId" placeholder="เช่น ACS-20261008...">
+<label>เลขที่จอง (ไม่บังคับ)</label>
+<input id="findBookingId" placeholder="เว้นว่างได้ หากค้นหาด้วยเบอร์โทร">
 
-<label>เบอร์โทรศัพท์</label>
-<input id="findPhone" type="tel" inputmode="numeric" placeholder="08xxxxxxxx">
+<label>เบอร์โทรศัพท์ที่ใช้จอง</label>
+<input id="findPhone" type="tel" inputmode="numeric" placeholder="08xxxxxxxx" required>
 
 <button class="secondary" id="findBtn" onclick="findBooking()">ค้นหาการจอง</button>
 
@@ -152,7 +164,7 @@ async function connectLINE(){
     const saved=await api("saveLineUser",currentUser);
     if(!saved.success)throw new Error(saved.message||"บันทึก LINE User ไม่สำเร็จ");
 
-    $("userInfo").innerHTML="<b>LINE:</b> "+esc(currentUser.displayName)+"<br><b>User ID:</b> "+esc(currentUser.userId);
+    $("userInfo").textContent="เชื่อมต่อ LINE สำเร็จแล้ว เลือกบริการและเวลาที่สะดวกได้เลย";
     setStatus("5. เชื่อมต่อ LINE สำเร็จ ✅","success");
     $("connectBtn").textContent="เชื่อมต่อแล้ว ✓";$("connectBtn").style.display="none";
     $("bookingCard").classList.remove("hidden");$("manageCard").classList.remove("hidden");
@@ -184,7 +196,7 @@ function selectSlot(slotsId,timeId,time,el){
 
 async function submitBooking(){
   if(!currentUser.userId){alert("กรุณาเชื่อมต่อ LINE ก่อน");return}
-  const data={lineUserId:currentUser.userId,customer:$("customer").value,phone:$("phone").value,plate:$("plate").value,province:$("province").value,brand:$("brand").value,model:$("model").value,date:$("date").value,time:$("time").value,detail:$("detail").value};
+  const data={lineUserId:currentUser.userId,customer:$("customer").value,phone:$("phone").value,plate:$("plate").value,province:$("province").value,brand:$("brand").value,model:$("model").value,date:$("date").value,time:$("time").value,detail:($("service").value ? "บริการ: "+$("service").value+"\n" : "")+$("detail").value};
   if(!data.customer||!data.phone||!data.plate||!data.date||!data.time){alert("กรุณากรอกข้อมูลที่จำเป็นให้ครบ และเลือกเวลา");return}
   $("submitBtn").disabled=true;$("submitBtn").textContent="กำลังบันทึก...";
   try{
@@ -192,7 +204,7 @@ async function submitBooking(){
     if(!r.success){showResult("bookingResult","❌ "+(r.message||"จองไม่สำเร็จ"),true);return}
     showResult("bookingResult","<b>✅ จองคิวสำเร็จ</b><br><br>เลขที่จอง: <b>"+esc(r.bookingId)+"</b><br>วันที่: "+esc(r.appointment.date)+"<br>เวลา: "+esc(r.appointment.time)+"<br>เบอร์: "+esc(r.appointment.phone)+"<br>สถานะ LINE: "+(r.lineSent?"ส่งแล้ว ✅":"ส่งไม่สำเร็จ ⚠️")+"<br><span class='muted'>"+esc(r.lineMessage||"")+"</span>");
     $("findBookingId").value=r.bookingId;$("findPhone").value=data.phone;
-    ["customer","phone","plate","province","brand","model","detail"].forEach(id=>$(id).value="");
+    ["customer","phone","plate","province","brand","model","detail"].forEach(id=>$(id).value="");$("service").value="";
     $("date").value=todayString();$("time").value="";loadSlots("date","slots","time");
   }catch(e){showResult("bookingResult","❌ "+e.message,true)}
   finally{$("submitBtn").disabled=false;$("submitBtn").textContent="ยืนยันการนัดหมาย";}
@@ -200,7 +212,7 @@ async function submitBooking(){
 
 async function findBooking(){
   const bookingId=$("findBookingId").value.trim(),phone=$("findPhone").value.trim();
-  if(!bookingId||!phone){alert("กรุณากรอกเลขที่จองและเบอร์โทร");return}
+  if(!phone){alert("กรุณากรอกเบอร์โทรศัพท์ที่ใช้จอง");return}
   $("findBtn").disabled=true;$("findBtn").textContent="กำลังค้นหา...";
   try{
     const r=await api("findAppointment",{bookingId,phone});
@@ -217,7 +229,7 @@ async function findBooking(){
 
 async function updateBooking(){
   const data={bookingId:$("findBookingId").value.trim(),phone:$("findPhone").value.trim(),customer:$("editCustomer").value,plate:$("editPlate").value,province:$("editProvince").value,brand:$("editBrand").value,model:$("editModel").value,date:$("editDate").value,time:$("editTime").value,detail:$("editDetail").value};
-  if(!data.bookingId||!data.phone||!data.customer||!data.plate||!data.date||!data.time){alert("กรุณากรอกข้อมูลให้ครบ");return}
+  if(!data.bookingId||!data.phone||!data.customer||!data.plate||!data.date||!data.time){alert("กรุณาค้นหารายการด้วยเบอร์โทรก่อน แล้วกรอกข้อมูลให้ครบ");return}
   $("updateBtn").disabled=true;$("updateBtn").textContent="กำลังบันทึก...";
   try{
     const r=await api("updateAppointment",data);
