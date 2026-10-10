@@ -27,9 +27,6 @@ textarea{min-height:90px;resize:vertical}.status{margin-top:16px;padding:12px;bo
 .slot{padding:12px 5px;border:1px solid #ecdadd;border-radius:12px;background:#fff;text-align:center;margin:0;font-size:15px}
 .slot.available{border-color:#e3a2aa;color:var(--red)}.slot.full{opacity:.4}.slot.selected{background:var(--red);color:#fff;border-color:var(--red);box-shadow:0 5px 14px #b5122425}
 .slot small{display:block;font-size:11px;margin-top:4px}.result{background:#fff6f7;border:1px solid #f3dadd;padding:16px;border-radius:14px;margin-top:16px;line-height:1.8}
-.summary-top{display:flex;justify-content:space-between;align-items:center;gap:10px}.summary-label{font-size:12px;font-weight:800;letter-spacing:.8px;color:#9c1728}.summary-status{font-size:11px;padding:5px 9px;border-radius:99px;background:#fff0f1;color:#a90d20;border:1px solid #f2cbd0}.summary-id{font-size:20px;font-weight:900;color:#b51224;margin:8px 0 14px;overflow-wrap:anywhere}.summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.summary-grid>div{background:#fff;border:1px solid #f5e4e6;border-radius:12px;padding:10px;min-width:0}.summary-grid small{display:block;color:#8a7779;font-size:11px;margin-bottom:4px}.summary-grid b{font-size:14px;overflow-wrap:anywhere}.summary-grid p{margin:0;white-space:pre-wrap;overflow-wrap:anywhere;font-size:13px}.summary-grid .summary-wide{grid-column:1/-1}
-#editForm{animation:rise .35s ease both}
-@media(max-width:380px){.summary-grid{grid-template-columns:1fr}.summary-grid .summary-wide{grid-column:auto}}
 .section-kicker{color:var(--red);font-size:11px;letter-spacing:2px;font-weight:800;margin-bottom:5px}.service-note{font-size:12px;color:var(--muted);margin-top:6px}
 hr{border:0;border-top:1px solid #f1dfe1;margin:22px 0}.muted{color:#867779;font-size:13px}
 @keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}@keyframes float{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(8px) rotate(8deg)}}@keyframes pulse{0%,100%{box-shadow:0 8px 18px #b512242b}50%{box-shadow:0 8px 24px #b5122455}}
@@ -220,27 +217,8 @@ async function findBooking(){
   try{
     const r=await api("findAppointment",{bookingId,phone});
     if(!r.success){showResult("editResult","❌ "+r.message,true);$("editForm").classList.add("hidden");return}
-    const a=r.appointment;
-    // Store the returned booking ID so phone-only searches can be edited.
-    $("findBookingId").value=a.bookingId;
-    $("editForm").classList.remove("hidden");
-    const rawDetail=String(a.detail||"");
-    const serviceMatch=rawDetail.match(/^บริการ:\s*([^\n]+)(?:\n|$)/);
-    const serviceName=serviceMatch?serviceMatch[1]:"";
-    const extraDetail=serviceMatch?rawDetail.replace(/^บริการ:\s*[^\n]+\n?/,""):rawDetail;
-    $("editSummary").innerHTML=
-      "<div class='summary-top'><span class='summary-label'>รายละเอียดการจอง</span><span class='summary-status'>"+esc(a.status||"รอรับรถ")+"</span></div>"+
-      "<div class='summary-id'>"+esc(a.bookingId)+"</div>"+
-      "<div class='summary-grid'>"+
-      "<div><small>ลูกค้า</small><b>"+esc(a.customer)+"</b></div>"+
-      "<div><small>เบอร์โทร</small><b>"+esc(a.phone)+"</b></div>"+
-      "<div><small>ทะเบียนรถ</small><b>"+esc(a.plate)+" "+esc(a.province)+"</b></div>"+
-      "<div><small>รถ</small><b>"+esc([a.brand,a.model].filter(Boolean).join(" ")||"-")+"</b></div>"+
-      "<div><small>วันที่นัด</small><b>"+esc(a.date)+"</b></div>"+
-      "<div><small>เวลา</small><b>"+esc(a.time)+" น.</b></div>"+
-      "<div class='summary-wide'><small>งานบริการ</small><b>"+esc(serviceName||"ไม่ระบุ")+"</b></div>"+
-      "<div class='summary-wide'><small>รายละเอียดเพิ่มเติม</small><p>"+esc(extraDetail||"-")+"</p></div></div>";
-    $("editDetail").value=rawDetail;
+    const a=r.appointment;$("editForm").classList.remove("hidden");
+    $("editSummary").innerHTML="<b>เลขที่จอง:</b> "+esc(a.bookingId)+"<br><b>สถานะ:</b> "+esc(a.status);
     $("editDate").value=a.date;$("editCustomer").value=a.customer;$("editPhone").value=a.phone;$("editPlate").value=a.plate;$("editProvince").value=a.province;$("editBrand").value=a.brand;$("editModel").value=a.model;$("editDetail").value=a.detail;
     await loadSlots("editDate","editSlots","editTime");$("editTime").value=a.time;
     [...$("editSlots").querySelectorAll(".slot")].forEach(b=>{if(b.textContent.trim().startsWith(a.time))b.classList.add("selected")});
@@ -250,7 +228,7 @@ async function findBooking(){
 }
 
 async function updateBooking(){
-  const data={bookingId:$("findBookingId").value.trim(),phone:$("editPhone").value.trim()||$("findPhone").value.trim(),customer:$("editCustomer").value,plate:$("editPlate").value,province:$("editProvince").value,brand:$("editBrand").value,model:$("editModel").value,date:$("editDate").value,time:$("editTime").value,detail:$("editDetail").value};
+  const data={bookingId:$("findBookingId").value.trim(),phone:$("findPhone").value.trim(),customer:$("editCustomer").value,plate:$("editPlate").value,province:$("editProvince").value,brand:$("editBrand").value,model:$("editModel").value,date:$("editDate").value,time:$("editTime").value,detail:$("editDetail").value};
   if(!data.bookingId||!data.phone||!data.customer||!data.plate||!data.date||!data.time){alert("กรุณาค้นหารายการด้วยเบอร์โทรก่อน แล้วกรอกข้อมูลให้ครบ");return}
   $("updateBtn").disabled=true;$("updateBtn").textContent="กำลังบันทึก...";
   try{
