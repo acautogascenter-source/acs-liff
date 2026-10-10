@@ -168,7 +168,7 @@ textarea{resize:vertical;min-height:88px}
 </style>
 </head>
 
-<body>
+<body data-page="booking">
 <header class="hero">
   <div class="brand">
     <div class="logo">ACS</div>
@@ -195,7 +195,27 @@ textarea{resize:vertical;min-height:88px}
 
   <div id="globalStatus" class="status" role="status" aria-live="polite"></div>
 
-  <section id="bookingView">
+  
+<nav class="acs-page-nav" aria-label="เมนูหลัก">
+  <a href="booking.html" data-page="booking">＋ จองคิว</a>
+  <a href="edit-booking.html" data-page="manage">✎ แก้ไขการจอง</a>
+  <a href="booking-detail.html" data-page="status">▤ ดูรายละเอียด</a>
+</nav>
+<style>
+.tabs{display:none!important}.acs-page-nav{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin:17px 0}
+.acs-page-nav a{display:flex;align-items:center;justify-content:center;text-align:center;min-height:48px;padding:9px 5px;border-radius:14px;border:1px solid #f0d7da;background:#fff;color:#8f0b1b;text-decoration:none;font-size:13px;font-weight:750;box-shadow:0 5px 16px #4d00100a;transition:transform .2s,background .2s}
+.acs-page-nav a:hover{transform:translateY(-2px)}
+.acs-page-nav a.active{background:linear-gradient(120deg,#a90010,#e92335);color:#fff;border-color:transparent;box-shadow:0 8px 20px #c9001628}
+body[data-page="booking"] #manageView,body[data-page="booking"] #statusView,
+body[data-page="manage"] #bookingView,body[data-page="manage"] #statusView,
+body[data-page="status"] #bookingView,body[data-page="status"] #manageView{display:none!important}
+body[data-page="booking"] [data-tab="manage"],body[data-page="booking"] [data-tab="status"],
+body[data-page="manage"] [data-tab="booking"],body[data-page="manage"] [data-tab="status"],
+body[data-page="status"] [data-tab="booking"],body[data-page="status"] [data-tab="manage"]{display:none!important}
+@media(max-width:390px){.acs-page-nav{gap:6px}.acs-page-nav a{font-size:12px;padding:8px 3px}}
+</style>
+
+<section id="bookingView">
     <form id="bookingForm">
       <div class="panel">
         <h2 class="section-title">01 · เลือกบริการ</h2>
@@ -764,6 +784,11 @@ $('findPhone').addEventListener('input',e=>{
 });
 
 initLine();
+</script>
+<script>
+document.querySelectorAll('.acs-page-nav a').forEach(a=>{
+  if(a.dataset.page==='booking') a.classList.add('active');
+});
 </script>
 </body>
 </html>
