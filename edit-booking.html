@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#c90016">
-<title>ACS SERVICE CENTER | จองคิวเข้ารับบริการ</title>
+<title>ACS SERVICE CENTER | แก้ไขการจอง</title>
 <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
 
 <style>
@@ -186,7 +186,7 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--red)!imp
 </style>
 </head>
 
-<body data-page="booking">
+<body data-page="manage">
 <header class="hero">
   <div class="brand">
     <div class="logo">ACS</div>
@@ -297,7 +297,7 @@ body[data-page="status"] [data-tab="booking"],body[data-page="status"] [data-tab
 
         <div class="field">
           <label for="model">รุ่นรถ</label>
-          <input id="model" name="model" maxlength="80" placeholder="เช่น Fortuner, Civic">
+          <input id="model" name="model" maxlength="80" placeholder="พิมพ์รุ่นรถ (เว้นว่างได้)">
         </div>
       </div>
 
@@ -345,10 +345,10 @@ body[data-page="status"] [data-tab="booking"],body[data-page="status"] [data-tab
       <form id="findForm">
         <div class="field">
           <label for="findPhone">เบอร์โทรศัพท์ที่ใช้จอง <span class="req">*</span></label>
-          <input id="findPhone" type="tel" inputmode="tel" required placeholder="เบอร์โทรศัพท์ลูกค้า">
+          <input id="findPhone" type="tel" inputmode="tel" required placeholder="กรอกเบอร์โทรศัพท์ที่ใช้จอง" autocomplete="tel">
         </div>
         <div class="field">
-          <label for="findId">เลขที่จอง (ถ้าทราบ)</label>
+          <label for="findId">เลขที่จอง (ไม่จำเป็น — ค้นหาด้วยเบอร์โทรได้)</label>
           <input id="findId" placeholder="เช่น ACS-20261009104958-5226">
         </div>
         <button class="btn btn-primary btn-block" type="submit">ค้นหาการจอง</button>
@@ -843,7 +843,7 @@ initLine();
 </script>
 <script>
 document.querySelectorAll('.acs-page-nav a').forEach(a=>{
-  if(a.dataset.page==='booking') a.classList.add('active');
+  if(a.dataset.page==='manage') a.classList.add('active');
 });
 </script>
 </body>
