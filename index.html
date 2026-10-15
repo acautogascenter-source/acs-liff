@@ -186,32 +186,71 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--red)!imp
 </style>
 </head>
 
-@@ -227,26 +238,24 @@
+<body data-page="booking">
+<header class="hero">
+  <div class="brand">
+    <div class="logo">ACS</div>
+    <div>
+      <div class="brand-name">ACS SERVICE CENTER</div>
+      <div class="brand-sub">AUTOMOTIVE SERVICE & CARE</div>
+    </div>
+  </div>
+  <h1>นัดหมายเข้ารับบริการ</h1>
+  <p>เลือกบริการ วัน และเวลาที่สะดวกได้ในไม่กี่ขั้นตอน</p>
+  <div class="hero-bottom">
+    <span class="pill">✦ มาตรฐานงานบริการ</span>
+    <span class="pill">◷ 08:30–17:30 น.</span>
+    <span class="pill">♥ ดูแลทุกคัน</span>
+  </div>
+</header>
+
+<main class="wrap content">
+  <nav class="nav" aria-label="เมนูการจอง">
+    <button class="active" data-tab="booking">＋ จองคิว</button>
+    <button data-tab="manage">✎ แก้ไขนัดหมาย</button>
+    <button data-tab="status">▤ รายละเอียด</button>
+  </nav>
+
+  <div id="globalStatus" class="status" role="status" aria-live="polite"></div>
+
+  
+<nav class="acs-page-nav" aria-label="เมนูหลัก">
+  <a href="booking.html" data-page="booking">＋ จองคิว</a>
+  <a href="edit-booking.html" data-page="manage">✎ แก้ไขการจอง</a>
+  <a href="booking-detail.html" data-page="status">▤ ดูรายละเอียด</a>
+</nav>
+<style>
+.tabs{display:none!important}.acs-page-nav{position:sticky;top:8px;z-index:20;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin:17px 0;padding:7px;background:#ffffffed;backdrop-filter:blur(14px);border:1px solid #f1e1e3;border-radius:18px;box-shadow:0 10px 28px #4d001012}
+.acs-page-nav a{display:flex;align-items:center;justify-content:center;text-align:center;min-height:49px;padding:9px 5px;border-radius:13px;border:1px solid #f0d7da;background:#fff;color:#8f0b1b;text-decoration:none;font-size:13px;font-weight:750;box-shadow:0 5px 16px #4d00100a;transition:transform .2s,background .2s}
+.acs-page-nav a:hover{transform:translateY(-2px)}
+.acs-page-nav a.active{background:linear-gradient(120deg,#a90010,#e92335);color:#fff;border-color:transparent;box-shadow:0 8px 20px #c9001628}
+body[data-page="booking"] #manageView,body[data-page="booking"] #statusView,
+body[data-page="manage"] #bookingView,body[data-page="manage"] #statusView,
+body[data-page="status"] #bookingView,body[data-page="status"] #manageView{display:none!important}
+body[data-page="booking"] [data-tab="manage"],body[data-page="booking"] [data-tab="status"],
+body[data-page="manage"] [data-tab="booking"],body[data-page="manage"] [data-tab="status"],
+body[data-page="status"] [data-tab="booking"],body[data-page="status"] [data-tab="manage"]{display:none!important}
+@media(max-width:390px){.acs-page-nav{gap:6px}.acs-page-nav a{font-size:12px;padding:8px 3px}}
+</style>
+
+<section id="bookingView">
+    <form id="bookingForm">
       <div class="panel">
         <h2 class="section-title">01 · เลือกบริการ</h2>
         <p class="section-desc">เลือกบริการที่ต้องการเข้ารับบริการ</p>
-        <div class="service-list" id="serviceList">
-          <button type="button" class="service selected" data-service="ติดตั้งแก๊ส">
-            <strong>ติดตั้งแก๊ส</strong><small>ติดตั้งระบบแก๊สรถยนต์</small>
-          </button>
-          <button type="button" class="service" data-service="ตรวจเช็กระบบแก๊ส">
         <div class="service-list" id="serviceList" aria-label="เลือกบริการได้มากกว่าหนึ่งรายการ">
           <button type="button" class="service" data-service="ตรวจเช็กระบบแก๊ส" aria-pressed="false">
             <strong>ตรวจเช็กระบบแก๊ส</strong><small>ตรวจสอบและวิเคราะห์ระบบ</small>
           </button>
-          <button type="button" class="service" data-service="ซ่อมบำรุงระบบแก๊ส">
           <button type="button" class="service" data-service="ซ่อมบำรุงระบบแก๊ส" aria-pressed="false">
             <strong>ซ่อมบำรุงระบบแก๊ส</strong><small>ดูแลและแก้ไขการทำงาน</small>
           </button>
-          <button type="button" class="service" data-service="ตรวจเช็กระบบแอร์">
           <button type="button" class="service" data-service="ตรวจเช็กระบบแอร์" aria-pressed="false">
             <strong>ตรวจเช็กระบบแอร์</strong><small>ตรวจสอบระบบปรับอากาศ</small>
           </button>
-          <button type="button" class="service" data-service="เปลี่ยนถ่ายน้ำมันเครื่อง">
           <button type="button" class="service" data-service="เปลี่ยนถ่ายน้ำมันเครื่อง" aria-pressed="false">
             <strong>เปลี่ยนถ่ายน้ำมันเครื่อง</strong><small>บำรุงรักษาตามระยะ</small>
           </button>
-          <button type="button" class="service" data-service="ช่วงล่างและระบบเบรก">
           <button type="button" class="service" data-service="ช่วงล่างและระบบเบรก" aria-pressed="false">
             <strong>ช่วงล่างและระบบเบรก</strong><small>ตรวจเช็กเพื่อความปลอดภัย</small>
           </button>
@@ -220,22 +259,309 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--red)!imp
       </div>
 
       <div class="panel">
-@@ -427,7 +436,7 @@
+        <h2 class="section-title">02 · ข้อมูลลูกค้าและรถ</h2>
+        <p class="section-desc">กรอกข้อมูลเพื่อให้ทีมงานเตรียมรับรถของคุณ</p>
+
+        <div class="field">
+          <label for="customer">ชื่อ–นามสกุล <span class="req">*</span></label>
+          <input id="customer" name="customer" autocomplete="name" maxlength="100" required placeholder="ชื่อผู้เข้ารับบริการ">
+        </div>
+
+        <div class="grid2">
+          <div class="field">
+            <label for="phone">เบอร์โทรศัพท์ <span class="req">*</span></label>
+            <input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" maxlength="15" required placeholder="08XXXXXXXX">
+          </div>
+          <div class="field">
+            <label for="plate">ทะเบียนรถ <span class="req">*</span></label>
+            <input id="plate" name="plate" maxlength="30" required placeholder="เช่น 2345">
+          </div>
+        </div>
+
+        <div class="grid2">
+          <div class="field">
+            <label for="province">จังหวัดทะเบียน</label>
+            <input id="province" name="province" maxlength="50" placeholder="เช่น กรุงเทพมหานคร">
+          </div>
+          <div class="field">
+            <label for="brand">ยี่ห้อรถ</label>
+            <select id="brand" name="brand">
+              <option value="">เลือกยี่ห้อ</option>
+              <option>Toyota</option><option>Honda</option><option>Isuzu</option>
+              <option>Mitsubishi</option><option>Nissan</option><option>Ford</option>
+              <option>Mazda</option><option>MG</option><option>BYD</option>
+              <option>อื่น ๆ</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="model">รุ่นรถ</label>
+          <input id="model" name="model" maxlength="80" placeholder="พิมพ์รุ่นรถ (เว้นว่างได้)">
+        </div>
+      </div>
+
+      <div class="panel">
+        <h2 class="section-title">03 · วันและเวลานัดหมาย</h2>
+        <p class="section-desc">เลือกวันที่ก่อน แล้วเลือกเวลาที่ระบบยังเปิดรับคิว</p>
+
+        <div class="field">
+          <label for="date">วันที่เข้ารับบริการ <span class="req">*</span></label>
+          <input id="date" name="date" type="date" required>
+          <div class="date-note">ระบบแสดงเวลาที่เปิดรับตามข้อมูลจาก ACS Calendar</div>
+        </div>
+
+        <div class="field">
+          <label>เวลาที่สะดวก <span class="req">*</span></label>
+          <div id="timeGrid" class="time-grid">
+            <div class="small-note">กรุณาเลือกวันที่เพื่อดูเวลาว่าง</div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="detail">รายละเอียดเพิ่มเติม</label>
+          <textarea id="detail" name="detail" maxlength="1000" placeholder="รายละเอียดอาการรถหรือสิ่งที่ต้องการให้ช่างตรวจเช็ก"></textarea>
+        </div>
+
+        <div id="bookingSummary" class="summary hidden">
+          <h3>สรุปการนัดหมาย</h3>
+          <div class="summary-row"><span>บริการ</span><strong id="sumService">-</strong></div>
+          <div class="summary-row"><span>วันที่</span><strong id="sumDate">-</strong></div>
+          <div class="summary-row"><span>เวลา</span><strong id="sumTime">-</strong></div>
+        </div>
+
+        <button id="submitBooking" type="submit" class="btn btn-primary btn-block" style="margin-top:18px">
+          ยืนยันการจองคิว →
+        </button>
+        <p class="small-note">การจองจะสมบูรณ์เมื่อระบบยืนยันการบันทึกสำเร็จเท่านั้น</p>
+      </div>
+    </form>
+  </section>
+
+  <section id="manageView" class="hidden">
+    <div class="panel">
+      <h2 class="section-title">ค้นหาและแก้ไขนัดหมาย</h2>
+      <p class="section-desc">กรอกเบอร์โทรศัพท์ที่ใช้จอง ระบบจะค้นหารายการล่าสุดของเบอร์นี้</p>
+      <form id="findForm">
+        <div class="field">
+          <label for="findPhone">เบอร์โทรศัพท์ที่ใช้จอง <span class="req">*</span></label>
+          <input id="findPhone" type="tel" inputmode="tel" required placeholder="กรอกเบอร์โทรศัพท์ที่ใช้จอง" autocomplete="tel">
+        </div>
+        <div class="field">
+          <label for="findId">เลขที่จอง (ไม่จำเป็น — ค้นหาด้วยเบอร์โทรได้)</label>
+          <input id="findId" placeholder="เช่น ACS-20261009104958-5226">
+        </div>
+        <button class="btn btn-primary btn-block" type="submit">ค้นหาการจอง</button>
+      </form>
+      <div id="findResult" class="status" aria-live="polite"></div>
+    </div>
+
+    <form id="editForm" class="hidden">
+      <div class="panel">
+        <h2 class="section-title">แก้ไขข้อมูลนัดหมาย</h2>
+        <p class="section-desc">ตรวจสอบข้อมูลก่อนบันทึกการเปลี่ยนแปลง</p>
+        <input type="hidden" id="editBookingId">
+        <div class="field">
+          <label for="editCustomer">ชื่อ–นามสกุล</label>
+          <input id="editCustomer" required>
+        </div>
+        <div class="grid2">
+          <div class="field"><label for="editPhone">เบอร์โทรศัพท์</label><input id="editPhone" type="tel" required></div>
+          <div class="field"><label for="editPlate">ทะเบียนรถ</label><input id="editPlate" required></div>
+        </div>
+        <div class="grid2">
+          <div class="field"><label for="editProvince">จังหวัด</label><input id="editProvince"></div>
+          <div class="field">
+            <label for="editBrand">ยี่ห้อรถ</label>
+            <select id="editBrand">
+              <option value="">เลือกยี่ห้อ</option>
+              <option>Toyota</option><option>Honda</option><option>Isuzu</option>
+              <option>Mitsubishi</option><option>Nissan</option><option>Ford</option>
+              <option>Mazda</option><option>MG</option><option>BYD</option><option>อื่น ๆ</option>
+            </select>
+          </div>
+        </div>
+        <div class="field"><label for="editModel">รุ่นรถ</label><input id="editModel"></div>
+        <div class="field">
+          <label for="editDate">วันที่นัดหมาย</label>
+          <input id="editDate" type="date" required>
+        </div>
+        <div class="field">
+          <label>เวลานัดหมาย</label>
+          <div id="editTimeGrid" class="time-grid"></div>
+        </div>
+        <div class="field">
+          <label for="editDetail">รายละเอียดบริการ</label>
+          <textarea id="editDetail"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">บันทึกการแก้ไข</button>
+      </div>
+    </form>
+  </section>
+
+  <section id="statusView" class="hidden">
+    <div class="panel">
+      <h2 class="section-title">รายละเอียดการนัดหมาย</h2>
+      <p class="section-desc">ค้นหาด้วยเบอร์โทรศัพท์เพื่อดูข้อมูลการจองของคุณ</p>
+      <button id="goManage" type="button" class="btn btn-primary btn-block">ค้นหารายการจอง</button>
+      <div id="appointmentDetail" class="summary hidden"></div>
+    </div>
+  </section>
+
+  <section id="successView" class="hidden">
+    <div class="panel center">
+      <div class="success-mark">✓</div>
+      <h2 class="section-title">บันทึกการจองสำเร็จ</h2>
+      <p class="section-desc">ระบบบันทึกนัดหมายของคุณเรียบร้อยแล้ว</p>
+      <div id="successDetails" class="summary" style="text-align:left"></div>
+      <p id="lineStatus" class="small-note"></p>
+      <button id="newBooking" class="btn btn-primary btn-block" style="margin-top:17px">กลับไปหน้าจองคิว</button>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <strong>ACS SERVICE CENTER</strong><br>
+    ศูนย์บริการรถยนต์ · กรุณาตรวจสอบวันและเวลาก่อนยืนยัน
+  </footer>
+</main>
+
+<script>
+'use strict';
+
+/* ตั้งค่าให้ตรงกับระบบที่ใช้งานจริง */
+const LIFF_ID = '2011246207-sX1HgP1s';
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbwztzUCGN0AUy8bXUzG96o60Prt5hoMhZnght_xrlgC2lWfoEvszod_hYv28G8n9qOtuQ/exec';
+
+const TIME_SLOTS = ['08:00','09:00','10:00','11:00','13:00','14:00','15:00','16:00','17:00'];
 const $ = id => document.getElementById(id);
 
 let lineUserId = '';
-let selectedService = 'ติดตั้งแก๊ส';
 let selectedServices = [];
 let selectedTime = '';
 let editSelectedTime = '';
 let currentAppointment = null;
-@@ -553,16 +562,23 @@
+let busy = false;
+
+function message(el, text, type='info') {
+  el.className = 'status show ' + type;
+  el.textContent = text;
+}
+function globalMessage(text,type='info') {
+  message($('globalStatus'),text,type);
+  $('globalStatus').scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+function hideMessage(el) {
+  el.className = 'status';
+  el.textContent = '';
+}
+function setBusy(button, state, text) {
+  button.disabled = state;
+  button.classList.toggle('loading',state);
+  if(state) {
+    button.dataset.originalText = button.textContent;
+    button.textContent = text || 'กำลังดำเนินการ...';
+  } else if(button.dataset.originalText) {
+    button.textContent = button.dataset.originalText;
+  }
+}
+function api(action,data={}) {
+  return new Promise((resolve,reject)=>{
+    if(!GAS_URL.startsWith('https://script.google.com/macros/s/') ||
+       !GAS_URL.endsWith('/exec')) {
+      reject(new Error('กรุณาตั้งค่า GAS_URL ให้เป็น URL Web App ที่ลงท้ายด้วย /exec'));
+      return;
+    }
+    const callback = 'acsCb_' + Date.now() + '_' + Math.random().toString(36).slice(2);
+    const script = document.createElement('script');
+    let timer;
+    const cleanup = () => {
+      clearTimeout(timer);
+      try { delete window[callback]; } catch (_) { window[callback] = undefined; }
+      script.remove();
+    };
+    window[callback] = result => {
+      cleanup();
+      if(!result || typeof result !== 'object') {
+        reject(new Error('ข้อมูลตอบกลับจาก Apps Script ไม่ถูกต้อง'));
+        return;
+      }
+      resolve(result);
+    };
+    script.onerror = () => {
+      cleanup();
+      reject(new Error('เชื่อมต่อ Apps Script ไม่สำเร็จ กรุณาตรวจสอบ URL และการ Deploy Web App'));
+    };
+    timer = setTimeout(()=>{
+      cleanup();
+      reject(new Error('ระบบตอบกลับช้าเกินไป กรุณาลองอีกครั้ง'));
+    },25000);
+    const params = new URLSearchParams({
+      action,
+      data:JSON.stringify(data),
+      callback
+    });
+    script.src = GAS_URL + '?' + params.toString();
+    document.body.appendChild(script);
+  });
+}
+function normalizePhone(v) {
+  return String(v||'').replace(/[\s-]/g,'').trim();
+}
+function todayString() {
+  const now = new Date();
+  const local = new Date(now.getTime()-now.getTimezoneOffset()*60000);
+  return local.toISOString().slice(0,10);
+}
+function formatDate(date) {
+  if(!date) return '-';
+  const p = date.split('-');
+  return p.length===3 ? `${p[2]}/${p[1]}/${p[0]}` : date;
+}
+function summaryHtml(a) {
+  const fields = [
+    ['เลขที่จอง',a.bookingId],['ลูกค้า',a.customer],
+    ['เบอร์โทร',a.phone],['ทะเบียนรถ',a.plate],
+    ['บริการ',a.detail],['วันที่',formatDate(a.date)],
+    ['เวลา',a.time],['สถานะ',a.status || 'รอรับรถ']
+  ];
+  return '<h3>ข้อมูลการนัดหมาย</h3>' + fields.map(([k,v])=>
+    `<div class="summary-row"><span>${escapeHtml(k)}</span><strong>${escapeHtml(v||'-')}</strong></div>`
+  ).join('');
+}
+function escapeHtml(v) {
+  return String(v==null?'':v).replace(/[&<>"']/g,c=>({
+    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+  }[c]));
+}
+function switchTab(tab) {
+  ['booking','manage','status'].forEach(name=>{
+    $(name+'View').classList.toggle('hidden',name!==tab);
+    document.querySelector(`[data-tab="${name}"]`).classList.toggle('active',name===tab);
+  });
+  $('successView').classList.add('hidden');
+  hideMessage($('globalStatus'));
+}
+document.querySelectorAll('[data-tab]').forEach(btn=>{
+  btn.addEventListener('click',()=>switchTab(btn.dataset.tab));
+});
+
+// เปิดมุมมองที่ตรงกับหน้า URL โดยตรง ไม่ให้หน้าแก้ไข/รายละเอียดเป็นหน้าว่าง
+const initialPage = document.body.dataset.page === 'manage' ? 'manage' : (document.body.dataset.page === 'status' ? 'status' : 'booking');
+switchTab(initialPage);
+
+// หน้ารายละเอียดใช้ฟอร์มค้นหารายการเดียวกับหน้าแก้ไข แต่แสดงผลลัพธ์เป็นรายละเอียดเท่านั้น
+if (initialPage === 'status') {
+  const findPanel = $('findForm').closest('.panel');
+  const statusPanel = $('statusView').querySelector('.panel');
+  const goManageButton = $('goManage');
+  if (findPanel && statusPanel) {
+    statusPanel.insertBefore(findPanel, goManageButton);
+    goManageButton.remove();
+  }
+}
 
 document.querySelectorAll('.service').forEach(btn=>{
   btn.addEventListener('click',()=>{
-    document.querySelectorAll('.service').forEach(b=>b.classList.remove('selected'));
-    btn.classList.add('selected');
-    selectedService = btn.dataset.service;
     const service = btn.dataset.service;
     if(selectedServices.includes(service)) {
       selectedServices = selectedServices.filter(item=>item!==service);
@@ -252,12 +578,78 @@ document.querySelectorAll('.service').forEach(btn=>{
 
 function updateSummary() {
   $('bookingSummary').classList.remove('hidden');
-  $('sumService').textContent = selectedService;
   $('sumService').textContent = selectedServices.length ? selectedServices.join(' • ') : 'ยังไม่ได้เลือกบริการ';
   $('sumDate').textContent = formatDate($('date').value);
   $('sumTime').textContent = selectedTime || 'ยังไม่ได้เลือก';
 }
-@@ -637,6 +653,12 @@
+function drawTimes(container, slots, chosen, onSelect) {
+  container.innerHTML = '';
+  if(!slots.length) {
+    container.innerHTML = '<p class="small-note">ไม่มีช่วงเวลาที่เปิดรับในวันนี้</p>';
+    return;
+  }
+  slots.forEach(item=>{
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'time' + (item.time===chosen?' selected':'');
+    btn.disabled = !item.available;
+    btn.innerHTML = `${escapeHtml(item.time)}<small>${item.available?'เหลือ '+item.remain+' คิว':'เต็มแล้ว'}</small>`;
+    btn.addEventListener('click',()=>onSelect(item.time));
+    container.appendChild(btn);
+  });
+}
+async function loadTimes(date, editMode=false) {
+  const container = $(editMode?'editTimeGrid':'timeGrid');
+  if(!date) {
+    container.innerHTML = '<p class="small-note">กรุณาเลือกวันที่ก่อน</p>';
+    return;
+  }
+  container.innerHTML = '<p class="small-note">กำลังตรวจสอบคิวว่าง...</p>';
+  try {
+    const result = await api('getAvailableTimes',{date});
+    if(!result.success) throw new Error(result.message || 'โหลดเวลาว่างไม่สำเร็จ');
+    let slots = Array.isArray(result.times) ? result.times : [];
+    if(editMode && currentAppointment && date===currentAppointment.date && currentAppointment.time) {
+      const exists = slots.some(s=>s.time===currentAppointment.time);
+      if(!exists) {
+        slots = slots.concat([{time:currentAppointment.time,available:true,remain:1}])
+          .sort((a,b)=>String(a.time).localeCompare(String(b.time)));
+      } else {
+        slots = slots.map(s=>s.time===currentAppointment.time
+          ? {...s,available:true,remain:Math.max(1,Number(s.remain)||1)} : s);
+      }
+    }
+    const render = chosen => drawTimes(container,slots,chosen,time=>{
+      if(editMode) editSelectedTime=time;
+      else selectedTime=time;
+      render(time);
+      if(!editMode) updateSummary();
+    });
+    render(editMode ? editSelectedTime : selectedTime);
+  } catch(err) {
+    container.innerHTML = '';
+    const p=document.createElement('p');
+    p.className='small-note';
+    p.textContent=err.message;
+    container.appendChild(p);
+  }
+}
+$('date').min = todayString();
+$('editDate').min = todayString();
+$('date').addEventListener('change',()=>{
+  selectedTime='';
+  updateSummary();
+  loadTimes($('date').value);
+});
+$('editDate').addEventListener('change',()=>{
+  editSelectedTime='';
+  loadTimes($('editDate').value,true);
+});
+$('goManage').addEventListener('click',()=>{
+  switchTab('manage');
+  $('findPhone').focus({preventScroll:true});
+});
+
 async function initLine() {
   try {
     await liff.init({liffId:LIFF_ID});
@@ -270,11 +662,37 @@ async function initLine() {
     if(liff.isLoggedIn()) {
       const profile = await liff.getProfile();
       lineUserId = profile.userId || '';
-@@ -671,10 +693,15 @@
+      if(lineUserId) {
+        try {
+          await api('saveLineUser',{
+            userId:lineUserId,
+            displayName:profile.displayName || '',
+            source:'github-liff-bridge'
+          });
+        } catch(err) {
+          console.warn('LINE profile save:',err.message);
+        }
+      }
+    }
+  } catch(err) {
+    console.warn('LIFF init:',err.message || err);
+  }
+}
+
+/* สร้างรายการจอง */
+$('bookingForm').addEventListener('submit',async e=>{
+  e.preventDefault();
+  if(busy) return;
+  const button=$('submitBooking');
+  const data={
+    customer:$('customer').value.trim(),
+    phone:normalizePhone($('phone').value),
+    plate:$('plate').value.trim(),
+    province:$('province').value.trim(),
+    brand:$('brand').value.trim(),
     model:$('model').value.trim(),
     date:$('date').value,
     time:selectedTime,
-    detail:'บริการ: '+selectedService+
     detail:'บริการ: '+selectedServices.join(', ')+
       ($('detail').value.trim()?'\n'+$('detail').value.trim():''),
     lineUserId
@@ -287,11 +705,25 @@ async function initLine() {
   if(!data.time) {
     globalMessage('กรุณาเลือกเวลานัดหมายก่อนยืนยัน','warn');
     return;
-@@ -697,14 +724,14 @@
+  }
+  if(!/^0\d{8,9}$/.test(data.phone)) {
+    globalMessage('กรุณาตรวจสอบเบอร์โทรศัพท์ให้ถูกต้อง','error');
+    $('phone').focus();
+    return;
+  }
+  busy=true;setBusy(button,true,'กำลังบันทึกการจอง...');
+  try {
+    const result=await api('createAppointment',data);
+    if(!result.success) throw new Error(result.message || 'จองคิวไม่สำเร็จ');
+    const a=result.appointment || {...data,bookingId:result.bookingId,status:'รอรับรถ'};
+    a.bookingId=result.bookingId || a.bookingId;
+    $('bookingView').classList.add('hidden');
+    $('manageView').classList.add('hidden');
+    $('statusView').classList.add('hidden');
+    $('successView').classList.remove('hidden');
     $('successDetails').innerHTML=summaryHtml(a);
     $('lineStatus').textContent=result.lineSent
       ? 'ส่งข้อความยืนยันทาง LINE สำเร็จ'
-      : 'บันทึกการจองแล้ว'+(result.lineMessage?' · '+result.lineMessage:'')+
       : 'บันทึกการจองแล้ว แต่ LINE ยังไม่ยืนยันการส่ง'+(result.lineMessage?' · '+result.lineMessage:' · ตรวจสอบ LIFF User ID และ Channel Access Token')+
         ' หากยังไม่ได้รับข้อความ โปรดติดต่อศูนย์บริการ';
     hideMessage($('globalStatus'));
@@ -299,8 +731,120 @@ async function initLine() {
     $('bookingForm').reset();
     selectedTime='';
     $('date').min=todayString();
-    document.querySelectorAll('.service').forEach(b=>b.classList.toggle('selected',b.dataset.service===selectedService));
     selectedServices=[]; document.querySelectorAll('.service').forEach(b=>{b.classList.remove('selected');b.setAttribute('aria-pressed','false');});
     $('bookingSummary').classList.add('hidden');
     $('timeGrid').innerHTML='<p class="small-note">กรุณาเลือกวันที่เพื่อดูเวลาว่าง</p>';
   } catch(err) {
+    globalMessage(err.message,'error');
+  } finally {
+    busy=false;setBusy(button,false);
+  }
+});
+
+/* ค้นหาการจองด้วยเบอร์โทรและเลขที่จอง (ถ้ามี) */
+$('findForm').addEventListener('submit',async e=>{
+  e.preventDefault();
+  const button=e.submitter || $('findForm').querySelector('button');
+  setBusy(button,true,'กำลังค้นหา...');
+  hideMessage($('findResult'));
+  $('editForm').classList.add('hidden');
+  try {
+    const phone=normalizePhone($('findPhone').value);
+    const bookingId=$('findId').value.trim();
+    const result=await api('findAppointment',{phone,bookingId});
+    if(!result.success || !result.appointment) throw new Error(result.message || 'ไม่พบการจอง');
+    currentAppointment=result.appointment;
+    if (document.body.dataset.page === 'status') {
+      $('appointmentDetail').innerHTML=summaryHtml(currentAppointment);
+      $('appointmentDetail').classList.remove('hidden');
+      message($('findResult'),'พบรายการจอง '+(currentAppointment.bookingId||''),'success');
+      $('appointmentDetail').scrollIntoView({behavior:'smooth',block:'start'});
+    } else {
+      showAppointmentForEdit(currentAppointment);
+      message($('findResult'),'พบรายการจอง '+(currentAppointment.bookingId||''),'success');
+      $('editForm').classList.remove('hidden');
+      $('editForm').scrollIntoView({behavior:'smooth',block:'start'});
+    }
+  } catch(err) {
+    message($('findResult'),err.message,'error');
+  } finally {
+    setBusy(button,false);
+  }
+});
+
+function showAppointmentForEdit(a) {
+  $('editBookingId').value=a.bookingId||'';
+  $('editCustomer').value=a.customer||'';
+  $('editPhone').value=a.phone||'';
+  $('editPlate').value=a.plate||'';
+  $('editProvince').value=a.province||'';
+  $('editBrand').value=a.brand||'';
+  $('editModel').value=a.model||'';
+  $('editDate').value=a.date||'';
+  $('editDetail').value=a.detail||'';
+  editSelectedTime=a.time||'';
+  loadTimes(a.date,true);
+}
+
+/* บันทึกการแก้ไข */
+$('editForm').addEventListener('submit',async e=>{
+  e.preventDefault();
+  if(!currentAppointment) {
+    message($('findResult'),'กรุณาค้นหารายการจองก่อน','error');
+    return;
+  }
+  const button=e.submitter || $('editForm').querySelector('button');
+  setBusy(button,true,'กำลังบันทึก...');
+  try {
+    const data={
+      bookingId:$('editBookingId').value,
+      phone:normalizePhone($('editPhone').value),
+      customer:$('editCustomer').value.trim(),
+      plate:$('editPlate').value.trim(),
+      province:$('editProvince').value.trim(),
+      brand:$('editBrand').value.trim(),
+      model:$('editModel').value.trim(),
+      date:$('editDate').value,
+      time:editSelectedTime,
+      detail:$('editDetail').value.trim()
+    };
+    if(!data.time) throw new Error('กรุณาเลือกเวลานัดหมาย');
+    if(!/^0\d{8,9}$/.test(data.phone)) throw new Error('กรุณาตรวจสอบเบอร์โทรศัพท์');
+    const result=await api('updateAppointment',data);
+    if(!result.success) throw new Error(result.message || 'แก้ไขนัดหมายไม่สำเร็จ');
+    currentAppointment=result.appointment || {...currentAppointment,...data};
+    $('appointmentDetail').innerHTML=summaryHtml(currentAppointment);
+    $('appointmentDetail').classList.remove('hidden');
+    message($('findResult'),
+      'แก้ไขนัดหมายสำเร็จ'+(result.lineSent?' · ส่ง LINE แล้ว':' · บันทึกแล้วแต่ยังส่ง LINE ไม่สำเร็จ: '+(result.lineMessage||'โปรดตรวจสอบการเชื่อมต่อ LINE')),
+      result.lineSent ? 'success' : 'warn');
+    window.scrollTo({top:0,behavior:'smooth'});
+  } catch(err) {
+    message($('findResult'),err.message,'error');
+  } finally {
+    setBusy(button,false);
+  }
+});
+
+$('newBooking').addEventListener('click',()=>{
+  $('successView').classList.add('hidden');
+  switchTab('booking');
+  window.scrollTo({top:0,behavior:'smooth'});
+});
+
+$('phone').addEventListener('input',e=>{
+  e.target.value=e.target.value.replace(/[^\d+\s-]/g,'');
+});
+$('findPhone').addEventListener('input',e=>{
+  e.target.value=e.target.value.replace(/[^\d+\s-]/g,'');
+});
+
+initLine();
+</script>
+<script>
+document.querySelectorAll('.acs-page-nav a').forEach(a=>{
+  if(a.dataset.page==='booking') a.classList.add('active');
+});
+</script>
+</body>
+</html>
