@@ -172,6 +172,17 @@ input,select,textarea{background:#fffdfd}
 .btn-primary{background:linear-gradient(120deg,#a80012 0%,#d91529 55%,#f02b3d 100%)}
 .brand-sub{letter-spacing:1.5px}
 .acs-page-nav a:focus-visible,.btn:focus-visible{outline:3px solid #f7a9b1;outline-offset:2px}
+
+/* ACS PLUS visual polish */
+.service-list{gap:12px}
+.service{position:relative;min-height:82px;padding:16px 14px 16px 42px;border-radius:16px;text-align:left}
+.service:before{content:'+';position:absolute;left:14px;top:50%;transform:translateY(-50%);width:20px;height:20px;border:1.5px solid #d4d4d8;border-radius:6px;display:grid;place-items:center;color:#777;font-size:16px;font-weight:700}
+.service.selected:before{content:'✓';background:var(--red);border-color:var(--red);color:#fff}
+.service strong{font-size:14px;line-height:1.35}
+.service small{font-size:12px;line-height:1.4}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--red)!important;box-shadow:0 0 0 4px rgba(201,0,22,.09)}
+.panel{border:1px solid rgba(20,20,20,.045)}
+
 </style>
 </head>
 
@@ -227,26 +238,24 @@ body[data-page="status"] [data-tab="booking"],body[data-page="status"] [data-tab
       <div class="panel">
         <h2 class="section-title">01 · เลือกบริการ</h2>
         <p class="section-desc">เลือกบริการที่ต้องการเข้ารับบริการ</p>
-        <div class="service-list" id="serviceList">
-          <button type="button" class="service selected" data-service="ติดตั้งแก๊ส">
-            <strong>ติดตั้งแก๊ส</strong><small>ติดตั้งระบบแก๊สรถยนต์</small>
-          </button>
-          <button type="button" class="service" data-service="ตรวจเช็กระบบแก๊ส">
+        <div class="service-list" id="serviceList" aria-label="เลือกบริการได้มากกว่าหนึ่งรายการ">
+          <button type="button" class="service" data-service="ตรวจเช็กระบบแก๊ส" aria-pressed="false">
             <strong>ตรวจเช็กระบบแก๊ส</strong><small>ตรวจสอบและวิเคราะห์ระบบ</small>
           </button>
-          <button type="button" class="service" data-service="ซ่อมบำรุงระบบแก๊ส">
+          <button type="button" class="service" data-service="ซ่อมบำรุงระบบแก๊ส" aria-pressed="false">
             <strong>ซ่อมบำรุงระบบแก๊ส</strong><small>ดูแลและแก้ไขการทำงาน</small>
           </button>
-          <button type="button" class="service" data-service="ตรวจเช็กระบบแอร์">
+          <button type="button" class="service" data-service="ตรวจเช็กระบบแอร์" aria-pressed="false">
             <strong>ตรวจเช็กระบบแอร์</strong><small>ตรวจสอบระบบปรับอากาศ</small>
           </button>
-          <button type="button" class="service" data-service="เปลี่ยนถ่ายน้ำมันเครื่อง">
+          <button type="button" class="service" data-service="เปลี่ยนถ่ายน้ำมันเครื่อง" aria-pressed="false">
             <strong>เปลี่ยนถ่ายน้ำมันเครื่อง</strong><small>บำรุงรักษาตามระยะ</small>
           </button>
-          <button type="button" class="service" data-service="ช่วงล่างและระบบเบรก">
+          <button type="button" class="service" data-service="ช่วงล่างและระบบเบรก" aria-pressed="false">
             <strong>ช่วงล่างและระบบเบรก</strong><small>ตรวจเช็กเพื่อความปลอดภัย</small>
           </button>
         </div>
+        <p class="date-note">เลือกได้หลายบริการพร้อมกัน โดยแตะรายการที่ต้องการ</p>
       </div>
 
       <div class="panel">
@@ -427,7 +436,7 @@ const TIME_SLOTS = ['08:00','09:00','10:00','11:00','13:00','14:00','15:00','16:
 const $ = id => document.getElementById(id);
 
 let lineUserId = '';
-let selectedService = 'ติดตั้งแก๊ส';
+let selectedServices = [];
 let selectedTime = '';
 let editSelectedTime = '';
 let currentAppointment = null;
@@ -553,16 +562,23 @@ if (initialPage === 'status') {
 
 document.querySelectorAll('.service').forEach(btn=>{
   btn.addEventListener('click',()=>{
-    document.querySelectorAll('.service').forEach(b=>b.classList.remove('selected'));
-    btn.classList.add('selected');
-    selectedService = btn.dataset.service;
+    const service = btn.dataset.service;
+    if(selectedServices.includes(service)) {
+      selectedServices = selectedServices.filter(item=>item!==service);
+      btn.classList.remove('selected');
+      btn.setAttribute('aria-pressed','false');
+    } else {
+      selectedServices.push(service);
+      btn.classList.add('selected');
+      btn.setAttribute('aria-pressed','true');
+    }
     updateSummary();
   });
 });
 
 function updateSummary() {
   $('bookingSummary').classList.remove('hidden');
-  $('sumService').textContent = selectedService;
+  $('sumService').textContent = selectedServices.length ? selectedServices.join(' • ') : 'ยังไม่ได้เลือกบริการ';
   $('sumDate').textContent = formatDate($('date').value);
   $('sumTime').textContent = selectedTime || 'ยังไม่ได้เลือก';
 }
@@ -637,6 +653,12 @@ $('goManage').addEventListener('click',()=>{
 async function initLine() {
   try {
     await liff.init({liffId:LIFF_ID});
+    if(!liff.isLoggedIn()) {
+      console.warn('LIFF ยังไม่ได้เข้าสู่ระบบ LINE; จะไม่สามารถส่งข้อความยืนยันหาลูกค้าได้จนกว่าจะล็อกอิน');
+      const note = $('lineStatus');
+      if(note) note.textContent = 'หากต้องการรับแจ้งเตือน LINE กรุณาเปิดหน้านี้ผ่าน LINE และเข้าสู่ระบบ';
+      return;
+    }
     if(liff.isLoggedIn()) {
       const profile = await liff.getProfile();
       lineUserId = profile.userId || '';
@@ -671,10 +693,15 @@ $('bookingForm').addEventListener('submit',async e=>{
     model:$('model').value.trim(),
     date:$('date').value,
     time:selectedTime,
-    detail:'บริการ: '+selectedService+
+    detail:'บริการ: '+selectedServices.join(', ')+
       ($('detail').value.trim()?'\n'+$('detail').value.trim():''),
     lineUserId
   };
+  if(!selectedServices.length) {
+    globalMessage('กรุณาเลือกบริการอย่างน้อย 1 รายการ','warn');
+    $('serviceList').scrollIntoView({behavior:'smooth',block:'center'});
+    return;
+  }
   if(!data.time) {
     globalMessage('กรุณาเลือกเวลานัดหมายก่อนยืนยัน','warn');
     return;
@@ -697,14 +724,14 @@ $('bookingForm').addEventListener('submit',async e=>{
     $('successDetails').innerHTML=summaryHtml(a);
     $('lineStatus').textContent=result.lineSent
       ? 'ส่งข้อความยืนยันทาง LINE สำเร็จ'
-      : 'บันทึกการจองแล้ว'+(result.lineMessage?' · '+result.lineMessage:'')+
+      : 'บันทึกการจองแล้ว แต่ LINE ยังไม่ยืนยันการส่ง'+(result.lineMessage?' · '+result.lineMessage:' · ตรวจสอบ LIFF User ID และ Channel Access Token')+
         ' หากยังไม่ได้รับข้อความ โปรดติดต่อศูนย์บริการ';
     hideMessage($('globalStatus'));
     window.scrollTo({top:0,behavior:'smooth'});
     $('bookingForm').reset();
     selectedTime='';
     $('date').min=todayString();
-    document.querySelectorAll('.service').forEach(b=>b.classList.toggle('selected',b.dataset.service===selectedService));
+    selectedServices=[]; document.querySelectorAll('.service').forEach(b=>{b.classList.remove('selected');b.setAttribute('aria-pressed','false');});
     $('bookingSummary').classList.add('hidden');
     $('timeGrid').innerHTML='<p class="small-note">กรุณาเลือกวันที่เพื่อดูเวลาว่าง</p>';
   } catch(err) {
