@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#c90016">
-<title>ACS SERVICE CENTER | แก้ไขการจอง</title>
+<title>ACS SERVICE CENTER | จองคิวเข้ารับบริการ</title>
 <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
 
 <style>
@@ -175,9 +175,7 @@ input,select,textarea{background:#fffdfd}
 
 /* ACS PLUS visual polish */
 .service-list{gap:12px}
-.service{position:relative;min-height:82px;padding:16px 14px 16px 42px;border-radius:16px;text-align:left}
-.service:before{content:'+';position:absolute;left:14px;top:50%;transform:translateY(-50%);width:20px;height:20px;border:1.5px solid #d4d4d8;border-radius:6px;display:grid;place-items:center;color:#777;font-size:16px;font-weight:700}
-.service.selected:before{content:'✓';background:var(--red);border-color:var(--red);color:#fff}
+.service{position:relative;min-height:82px;padding:16px 14px;border-radius:16px;text-align:left}
 .service strong{font-size:14px;line-height:1.35}
 .service small{font-size:12px;line-height:1.4}
 input:focus,select:focus,textarea:focus{outline:none;border-color:var(--red)!important;box-shadow:0 0 0 4px rgba(201,0,22,.09)}
@@ -205,11 +203,7 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--red)!imp
 </header>
 
 <main class="wrap content">
-  <nav class="nav" aria-label="เมนูการจอง">
-    <button class="active" data-tab="booking">＋ จองคิว</button>
-    <button data-tab="manage">✎ แก้ไขนัดหมาย</button>
-    <button data-tab="status">▤ รายละเอียด</button>
-  </nav>
+  
 
   <div id="globalStatus" class="status" role="status" aria-live="polite"></div>
 
@@ -285,13 +279,7 @@ body[data-page="status"] [data-tab="booking"],body[data-page="status"] [data-tab
           </div>
           <div class="field">
             <label for="brand">ยี่ห้อรถ</label>
-            <select id="brand" name="brand">
-              <option value="">เลือกยี่ห้อ</option>
-              <option>Toyota</option><option>Honda</option><option>Isuzu</option>
-              <option>Mitsubishi</option><option>Nissan</option><option>Ford</option>
-              <option>Mazda</option><option>MG</option><option>BYD</option>
-              <option>อื่น ๆ</option>
-            </select>
+            <input id="brand" name="brand" maxlength="50" placeholder="พิมพ์ยี่ห้อรถ">
           </div>
         </div>
 
@@ -316,6 +304,40 @@ body[data-page="status"] [data-tab="booking"],body[data-page="status"] [data-tab
           <div id="timeGrid" class="time-grid">
             <div class="small-note">กรุณาเลือกวันที่เพื่อดูเวลาว่าง</div>
           </div>
+        </div>
+
+        <div class="field">
+          <label>ตรวจเช็กเบื้องต้น 27 รายการ (เลือกได้หลายรายการ)</label>
+          <div id="checklist27" class="service-list checklist-list">
+            <button type="button" class="service check-item" data-check="ยางและดอกยาง" aria-pressed="false"><strong>01 · ยางและดอกยาง</strong></button>
+            <button type="button" class="service check-item" data-check="แรงดันลมยาง" aria-pressed="false"><strong>02 · แรงดันลมยาง</strong></button>
+            <button type="button" class="service check-item" data-check="ยางอะไหล่" aria-pressed="false"><strong>03 · ยางอะไหล่</strong></button>
+            <button type="button" class="service check-item" data-check="ระบบเบรก" aria-pressed="false"><strong>04 · ระบบเบรก</strong></button>
+            <button type="button" class="service check-item" data-check="ผ้าเบรก" aria-pressed="false"><strong>05 · ผ้าเบรก</strong></button>
+            <button type="button" class="service check-item" data-check="น้ำมันเบรก" aria-pressed="false"><strong>06 · น้ำมันเบรก</strong></button>
+            <button type="button" class="service check-item" data-check="เบรกมือ" aria-pressed="false"><strong>07 · เบรกมือ</strong></button>
+            <button type="button" class="service check-item" data-check="แบตเตอรี่" aria-pressed="false"><strong>08 · แบตเตอรี่</strong></button>
+            <button type="button" class="service check-item" data-check="ขั้วแบตเตอรี่" aria-pressed="false"><strong>09 · ขั้วแบตเตอรี่</strong></button>
+            <button type="button" class="service check-item" data-check="ระบบชาร์จไฟ" aria-pressed="false"><strong>10 · ระบบชาร์จไฟ</strong></button>
+            <button type="button" class="service check-item" data-check="ไฟหน้า" aria-pressed="false"><strong>11 · ไฟหน้า</strong></button>
+            <button type="button" class="service check-item" data-check="ไฟท้าย" aria-pressed="false"><strong>12 · ไฟท้าย</strong></button>
+            <button type="button" class="service check-item" data-check="ไฟเลี้ยว" aria-pressed="false"><strong>13 · ไฟเลี้ยว</strong></button>
+            <button type="button" class="service check-item" data-check="ไฟเบรก" aria-pressed="false"><strong>14 · ไฟเบรก</strong></button>
+            <button type="button" class="service check-item" data-check="ที่ปัดน้ำฝน" aria-pressed="false"><strong>15 · ที่ปัดน้ำฝน</strong></button>
+            <button type="button" class="service check-item" data-check="น้ำฉีดกระจก" aria-pressed="false"><strong>16 · น้ำฉีดกระจก</strong></button>
+            <button type="button" class="service check-item" data-check="ระดับน้ำมันเครื่อง" aria-pressed="false"><strong>17 · ระดับน้ำมันเครื่อง</strong></button>
+            <button type="button" class="service check-item" data-check="สภาพน้ำมันเครื่อง" aria-pressed="false"><strong>18 · สภาพน้ำมันเครื่อง</strong></button>
+            <button type="button" class="service check-item" data-check="น้ำหล่อเย็น" aria-pressed="false"><strong>19 · น้ำหล่อเย็น</strong></button>
+            <button type="button" class="service check-item" data-check="หม้อน้ำและท่อ" aria-pressed="false"><strong>20 · หม้อน้ำและท่อ</strong></button>
+            <button type="button" class="service check-item" data-check="สายพาน" aria-pressed="false"><strong>21 · สายพาน</strong></button>
+            <button type="button" class="service check-item" data-check="กรองอากาศ" aria-pressed="false"><strong>22 · กรองอากาศ</strong></button>
+            <button type="button" class="service check-item" data-check="ระบบปรับอากาศ" aria-pressed="false"><strong>23 · ระบบปรับอากาศ</strong></button>
+            <button type="button" class="service check-item" data-check="ระบบแก๊สและท่อแก๊ส" aria-pressed="false"><strong>24 · ระบบแก๊สและท่อแก๊ส</strong></button>
+            <button type="button" class="service check-item" data-check="รอยรั่วใต้ท้องรถ" aria-pressed="false"><strong>25 · รอยรั่วใต้ท้องรถ</strong></button>
+            <button type="button" class="service check-item" data-check="ช่วงล่างและโช้ก" aria-pressed="false"><strong>26 · ช่วงล่างและโช้ก</strong></button>
+            <button type="button" class="service check-item" data-check="เข็มขัดนิรภัย" aria-pressed="false"><strong>27 · เข็มขัดนิรภัย</strong></button>
+          </div>
+          <p class="date-note">รายการที่เลือกจะถูกแนบไปกับรายละเอียดการจอง</p>
         </div>
 
         <div class="field">
@@ -347,10 +369,7 @@ body[data-page="status"] [data-tab="booking"],body[data-page="status"] [data-tab
           <label for="findPhone">เบอร์โทรศัพท์ที่ใช้จอง <span class="req">*</span></label>
           <input id="findPhone" type="tel" inputmode="tel" required placeholder="กรอกเบอร์โทรศัพท์ที่ใช้จอง" autocomplete="tel">
         </div>
-        <div class="field">
-          <label for="findId">เลขที่จอง (ไม่จำเป็น — ค้นหาด้วยเบอร์โทรได้)</label>
-          <input id="findId" placeholder="เช่น ACS-20261009104958-5226">
-        </div>
+        <input id="findId" type="hidden" value="">
         <button class="btn btn-primary btn-block" type="submit">ค้นหาการจอง</button>
       </form>
       <div id="findResult" class="status" aria-live="polite"></div>
@@ -373,12 +392,7 @@ body[data-page="status"] [data-tab="booking"],body[data-page="status"] [data-tab
           <div class="field"><label for="editProvince">จังหวัด</label><input id="editProvince"></div>
           <div class="field">
             <label for="editBrand">ยี่ห้อรถ</label>
-            <select id="editBrand">
-              <option value="">เลือกยี่ห้อ</option>
-              <option>Toyota</option><option>Honda</option><option>Isuzu</option>
-              <option>Mitsubishi</option><option>Nissan</option><option>Ford</option>
-              <option>Mazda</option><option>MG</option><option>BYD</option><option>อื่น ๆ</option>
-            </select>
+            <input id="editBrand" maxlength="50" placeholder="พิมพ์ยี่ห้อรถ">
           </div>
         </div>
         <div class="field"><label for="editModel">รุ่นรถ</label><input id="editModel"></div>
@@ -432,11 +446,12 @@ body[data-page="status"] [data-tab="booking"],body[data-page="status"] [data-tab
 const LIFF_ID = '2011246207-sX1HgP1s';
 const GAS_URL = 'https://script.google.com/macros/s/AKfycbwztzUCGN0AUy8bXUzG96o60Prt5hoMhZnght_xrlgC2lWfoEvszod_hYv28G8n9qOtuQ/exec';
 
-const TIME_SLOTS = ['08:00','09:00','10:00','11:00','13:00','14:00','15:00','16:00','17:00'];
+const TIME_SLOTS = ['08:30','09:30','10:30','11:30','13:30','14:30','15:30','16:30','17:00'];
 const $ = id => document.getElementById(id);
 
 let lineUserId = '';
 let selectedServices = [];
+let selectedChecks = [];
 let selectedTime = '';
 let editSelectedTime = '';
 let currentAppointment = null;
@@ -505,7 +520,11 @@ function api(action,data={}) {
   });
 }
 function normalizePhone(v) {
-  return String(v||'').replace(/[\s-]/g,'').trim();
+  let p=String(v||'').replace(/[^0-9+]/g,'').trim();
+  if(p.startsWith('+66')) p='0'+p.slice(3);
+  else if(p.startsWith('66') && p.length>=11) p='0'+p.slice(2);
+  if(/^[1-9]\d{8}$/.test(p)) p='0'+p;
+  return p;
 }
 function todayString() {
   const now = new Date();
@@ -536,7 +555,7 @@ function escapeHtml(v) {
 function switchTab(tab) {
   ['booking','manage','status'].forEach(name=>{
     $(name+'View').classList.toggle('hidden',name!==tab);
-    document.querySelector(`[data-tab="${name}"]`).classList.toggle('active',name===tab);
+    const tabButton=document.querySelector(`[data-tab="${name}"]`); if(tabButton) tabButton.classList.toggle('active',name===tab);
   });
   $('successView').classList.add('hidden');
   hideMessage($('globalStatus'));
@@ -560,7 +579,7 @@ if (initialPage === 'status') {
   }
 }
 
-document.querySelectorAll('.service').forEach(btn=>{
+document.querySelectorAll('#serviceList .service').forEach(btn=>{
   btn.addEventListener('click',()=>{
     const service = btn.dataset.service;
     if(selectedServices.includes(service)) {
@@ -573,6 +592,17 @@ document.querySelectorAll('.service').forEach(btn=>{
       btn.setAttribute('aria-pressed','true');
     }
     updateSummary();
+  });
+});
+
+
+document.querySelectorAll('.check-item').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const item=btn.dataset.check;
+    if(selectedChecks.includes(item)) selectedChecks=selectedChecks.filter(x=>x!==item);
+    else selectedChecks.push(item);
+    btn.classList.toggle('selected',selectedChecks.includes(item));
+    btn.setAttribute('aria-pressed',selectedChecks.includes(item)?'true':'false');
   });
 });
 
@@ -694,6 +724,7 @@ $('bookingForm').addEventListener('submit',async e=>{
     date:$('date').value,
     time:selectedTime,
     detail:'บริการ: '+selectedServices.join(', ')+
+      (selectedChecks.length?'\nตรวจเช็ก 27 รายการ: '+selectedChecks.join(', '):'')+
       ($('detail').value.trim()?'\n'+$('detail').value.trim():''),
     lineUserId
   };
@@ -731,7 +762,7 @@ $('bookingForm').addEventListener('submit',async e=>{
     $('bookingForm').reset();
     selectedTime='';
     $('date').min=todayString();
-    selectedServices=[]; document.querySelectorAll('.service').forEach(b=>{b.classList.remove('selected');b.setAttribute('aria-pressed','false');});
+    selectedServices=[]; selectedChecks=[]; document.querySelectorAll('.service').forEach(b=>{b.classList.remove('selected');b.setAttribute('aria-pressed','false');});
     $('bookingSummary').classList.add('hidden');
     $('timeGrid').innerHTML='<p class="small-note">กรุณาเลือกวันที่เพื่อดูเวลาว่าง</p>';
   } catch(err) {
@@ -843,7 +874,7 @@ initLine();
 </script>
 <script>
 document.querySelectorAll('.acs-page-nav a').forEach(a=>{
-  if(a.dataset.page==='manage') a.classList.add('active');
+  a.classList.toggle('active', a.dataset.page===document.body.dataset.page);
 });
 </script>
 </body>
