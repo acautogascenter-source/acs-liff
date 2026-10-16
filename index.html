@@ -419,6 +419,8 @@ const TIME_SLOTS = ['08:30','09:30','10:30','11:30','13:30','14:30','15:30','16:
 const $ = id => document.getElementById(id);
 
 let lineUserId = '';
+// รอให้ LIFF โหลดข้อมูลผู้ใช้เสร็จก่อนส่งคำขอจอง เพื่อไม่ให้ lineUserId ว่างจากการกดเร็วเกินไป
+let lineInitPromise = Promise.resolve();
 let selectedServices = [];
 let selectedTime = '';
 let editSelectedTime = '';
@@ -702,6 +704,22 @@ $('bookingForm').addEventListener('submit',async e=>{
   }
   busy=true;setBusy(button,true,'กำลังบันทึกการจอง...');
   try {
+    // รอ LIFF init ที่เริ่มตอนเปิดหน้าเว็บ ลดปัญหาจองก่อนดึง LINE User ID เสร็จ
+    await lineInitPromise;
+    if (!lineUserId && typeof liff !== 'undefined') {
+      try {
+        if (liff.isLoggedIn()) {
+          const profile = await liff.getProfile();
+          lineUserId = profile.userId || '';
+        }
+      } catch (profileErr) {
+        console.warn('ไม่สามารถอ่าน LINE profile ก่อนจอง:', profileErr);
+      }
+    }
+    data.lineUserId = lineUserId;
+    if (!lineUserId) {
+      console.warn('จองโดยไม่มี LINE User ID จึงส่งข้อความยืนยันถึงลูกค้าไม่ได้');
+    }
     const result=await api('createAppointment',data);
     if(!result.success) throw new Error(result.message || 'จองคิวไม่สำเร็จ');
     const a=result.appointment || {...data,bookingId:result.bookingId,status:'รอรับรถ'};
@@ -832,7 +850,7 @@ $('findPhone').addEventListener('input',e=>{
   e.target.value=e.target.value.replace(/[^\d+\s-]/g,'');
 });
 
-initLine();
+lineInitPromise = initLine();
 </script>
 <script>
 document.querySelectorAll('.acs-page-nav a').forEach(a=>{
