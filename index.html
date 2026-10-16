@@ -476,8 +476,8 @@ function api(action,data={}) {
     };
     timer = setTimeout(()=>{
       cleanup();
-      reject(new Error('ระบบตอบกลับช้าเกินไป กรุณาลองอีกครั้ง'));
-    },25000);
+      reject(new Error('ระบบโหลดเวลาว่างช้าเกินไป กรุณาตรวจสอบการ Deploy Apps Script และสิทธิ์เข้าถึง ACS Calendar แล้วลองอีกครั้ง'));
+    },40000);
     const params = new URLSearchParams({
       action,
       data:JSON.stringify(data),
@@ -839,7 +839,7 @@ $('newBooking').addEventListener('click',()=>{
   $('successView').classList.add('hidden');
   switchTab('booking');
   window.scrollTo({top:0,behavior:'smooth'});
-}); 
+});
 
 $('phone').addEventListener('input',e=>{
   e.target.value=e.target.value.replace(/[^\d+\s-]/g,'');
