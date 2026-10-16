@@ -209,12 +209,11 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--red)!imp
 
   
 <nav class="acs-page-nav" aria-label="เมนูหลัก">
-  <a href="booking.html" data-page="booking">＋ จองคิว</a>
+  <a href="index.html" data-page="booking">＋ จองคิว</a>
   <a href="edit-booking.html" data-page="manage">✎ แก้ไขการจอง</a>
-  <a href="booking-detail.html" data-page="status">▤ ดูรายละเอียด</a>
 </nav>
 <style>
-.tabs{display:none!important}.acs-page-nav{position:sticky;top:8px;z-index:20;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin:17px 0;padding:7px;background:#ffffffed;backdrop-filter:blur(14px);border:1px solid #f1e1e3;border-radius:18px;box-shadow:0 10px 28px #4d001012}
+.tabs{display:none!important}.acs-page-nav{position:sticky;top:8px;z-index:20;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin:17px 0;padding:7px;background:#ffffffed;backdrop-filter:blur(14px);border:1px solid #f1e1e3;border-radius:18px;box-shadow:0 10px 28px #4d001012}
 .acs-page-nav a{display:flex;align-items:center;justify-content:center;text-align:center;min-height:49px;padding:9px 5px;border-radius:13px;border:1px solid #f0d7da;background:#fff;color:#8f0b1b;text-decoration:none;font-size:13px;font-weight:750;box-shadow:0 5px 16px #4d00100a;transition:transform .2s,background .2s}
 .acs-page-nav a:hover{transform:translateY(-2px)}
 .acs-page-nav a.active{background:linear-gradient(120deg,#a90010,#e92335);color:#fff;border-color:transparent;box-shadow:0 8px 20px #c9001628}
@@ -247,6 +246,9 @@ body[data-page="status"] [data-tab="booking"],body[data-page="status"] [data-tab
           </button>
           <button type="button" class="service" data-service="ช่วงล่างและระบบเบรก" aria-pressed="false">
             <strong>ช่วงล่างและระบบเบรก</strong><small>ตรวจเช็กเพื่อความปลอดภัย</small>
+          </button>
+          <button type="button" class="service" data-service="เช็ค 27 รายการ" aria-pressed="false">
+            <strong>เช็ค 27 รายการ</strong><small>ตรวจเช็กรถเบื้องต้น 27 จุด</small>
           </button>
         </div>
         <p class="date-note">เลือกได้หลายบริการพร้อมกัน โดยแตะรายการที่ต้องการ</p>
@@ -306,40 +308,7 @@ body[data-page="status"] [data-tab="booking"],body[data-page="status"] [data-tab
           </div>
         </div>
 
-        <div class="field">
-          <label>ตรวจเช็กเบื้องต้น 27 รายการ (เลือกได้หลายรายการ)</label>
-          <div id="checklist27" class="service-list checklist-list">
-            <button type="button" class="service check-item" data-check="ยางและดอกยาง" aria-pressed="false"><strong>01 · ยางและดอกยาง</strong></button>
-            <button type="button" class="service check-item" data-check="แรงดันลมยาง" aria-pressed="false"><strong>02 · แรงดันลมยาง</strong></button>
-            <button type="button" class="service check-item" data-check="ยางอะไหล่" aria-pressed="false"><strong>03 · ยางอะไหล่</strong></button>
-            <button type="button" class="service check-item" data-check="ระบบเบรก" aria-pressed="false"><strong>04 · ระบบเบรก</strong></button>
-            <button type="button" class="service check-item" data-check="ผ้าเบรก" aria-pressed="false"><strong>05 · ผ้าเบรก</strong></button>
-            <button type="button" class="service check-item" data-check="น้ำมันเบรก" aria-pressed="false"><strong>06 · น้ำมันเบรก</strong></button>
-            <button type="button" class="service check-item" data-check="เบรกมือ" aria-pressed="false"><strong>07 · เบรกมือ</strong></button>
-            <button type="button" class="service check-item" data-check="แบตเตอรี่" aria-pressed="false"><strong>08 · แบตเตอรี่</strong></button>
-            <button type="button" class="service check-item" data-check="ขั้วแบตเตอรี่" aria-pressed="false"><strong>09 · ขั้วแบตเตอรี่</strong></button>
-            <button type="button" class="service check-item" data-check="ระบบชาร์จไฟ" aria-pressed="false"><strong>10 · ระบบชาร์จไฟ</strong></button>
-            <button type="button" class="service check-item" data-check="ไฟหน้า" aria-pressed="false"><strong>11 · ไฟหน้า</strong></button>
-            <button type="button" class="service check-item" data-check="ไฟท้าย" aria-pressed="false"><strong>12 · ไฟท้าย</strong></button>
-            <button type="button" class="service check-item" data-check="ไฟเลี้ยว" aria-pressed="false"><strong>13 · ไฟเลี้ยว</strong></button>
-            <button type="button" class="service check-item" data-check="ไฟเบรก" aria-pressed="false"><strong>14 · ไฟเบรก</strong></button>
-            <button type="button" class="service check-item" data-check="ที่ปัดน้ำฝน" aria-pressed="false"><strong>15 · ที่ปัดน้ำฝน</strong></button>
-            <button type="button" class="service check-item" data-check="น้ำฉีดกระจก" aria-pressed="false"><strong>16 · น้ำฉีดกระจก</strong></button>
-            <button type="button" class="service check-item" data-check="ระดับน้ำมันเครื่อง" aria-pressed="false"><strong>17 · ระดับน้ำมันเครื่อง</strong></button>
-            <button type="button" class="service check-item" data-check="สภาพน้ำมันเครื่อง" aria-pressed="false"><strong>18 · สภาพน้ำมันเครื่อง</strong></button>
-            <button type="button" class="service check-item" data-check="น้ำหล่อเย็น" aria-pressed="false"><strong>19 · น้ำหล่อเย็น</strong></button>
-            <button type="button" class="service check-item" data-check="หม้อน้ำและท่อ" aria-pressed="false"><strong>20 · หม้อน้ำและท่อ</strong></button>
-            <button type="button" class="service check-item" data-check="สายพาน" aria-pressed="false"><strong>21 · สายพาน</strong></button>
-            <button type="button" class="service check-item" data-check="กรองอากาศ" aria-pressed="false"><strong>22 · กรองอากาศ</strong></button>
-            <button type="button" class="service check-item" data-check="ระบบปรับอากาศ" aria-pressed="false"><strong>23 · ระบบปรับอากาศ</strong></button>
-            <button type="button" class="service check-item" data-check="ระบบแก๊สและท่อแก๊ส" aria-pressed="false"><strong>24 · ระบบแก๊สและท่อแก๊ส</strong></button>
-            <button type="button" class="service check-item" data-check="รอยรั่วใต้ท้องรถ" aria-pressed="false"><strong>25 · รอยรั่วใต้ท้องรถ</strong></button>
-            <button type="button" class="service check-item" data-check="ช่วงล่างและโช้ก" aria-pressed="false"><strong>26 · ช่วงล่างและโช้ก</strong></button>
-            <button type="button" class="service check-item" data-check="เข็มขัดนิรภัย" aria-pressed="false"><strong>27 · เข็มขัดนิรภัย</strong></button>
-          </div>
-          <p class="date-note">รายการที่เลือกจะถูกแนบไปกับรายละเอียดการจอง</p>
-        </div>
-
+        
         <div class="field">
           <label for="detail">รายละเอียดเพิ่มเติม</label>
           <textarea id="detail" name="detail" maxlength="1000" placeholder="รายละเอียดอาการรถหรือสิ่งที่ต้องการให้ช่างตรวจเช็ก"></textarea>
@@ -451,7 +420,6 @@ const $ = id => document.getElementById(id);
 
 let lineUserId = '';
 let selectedServices = [];
-let selectedChecks = [];
 let selectedTime = '';
 let editSelectedTime = '';
 let currentAppointment = null;
@@ -596,15 +564,6 @@ document.querySelectorAll('#serviceList .service').forEach(btn=>{
 });
 
 
-document.querySelectorAll('.check-item').forEach(btn=>{
-  btn.addEventListener('click',()=>{
-    const item=btn.dataset.check;
-    if(selectedChecks.includes(item)) selectedChecks=selectedChecks.filter(x=>x!==item);
-    else selectedChecks.push(item);
-    btn.classList.toggle('selected',selectedChecks.includes(item));
-    btn.setAttribute('aria-pressed',selectedChecks.includes(item)?'true':'false');
-  });
-});
 
 function updateSummary() {
   $('bookingSummary').classList.remove('hidden');
@@ -724,7 +683,6 @@ $('bookingForm').addEventListener('submit',async e=>{
     date:$('date').value,
     time:selectedTime,
     detail:'บริการ: '+selectedServices.join(', ')+
-      (selectedChecks.length?'\nตรวจเช็ก 27 รายการ: '+selectedChecks.join(', '):'')+
       ($('detail').value.trim()?'\n'+$('detail').value.trim():''),
     lineUserId
   };
@@ -762,9 +720,13 @@ $('bookingForm').addEventListener('submit',async e=>{
     $('bookingForm').reset();
     selectedTime='';
     $('date').min=todayString();
-    selectedServices=[]; selectedChecks=[]; document.querySelectorAll('.service').forEach(b=>{b.classList.remove('selected');b.setAttribute('aria-pressed','false');});
+    selectedServices=[]; document.querySelectorAll('.service').forEach(b=>{b.classList.remove('selected');b.setAttribute('aria-pressed','false');});
     $('bookingSummary').classList.add('hidden');
     $('timeGrid').innerHTML='<p class="small-note">กรุณาเลือกวันที่เพื่อดูเวลาว่าง</p>';
+    // ถ้าเปิดผ่าน LINE LIFF ให้กลับไปยังห้องแชทหลังแสดงผลสำเร็จชั่วครู่
+    if (typeof liff !== 'undefined' && liff.isInClient()) {
+      setTimeout(() => { try { liff.closeWindow(); } catch (closeErr) { console.warn('LIFF closeWindow:', closeErr); } }, 2200);
+    }
   } catch(err) {
     globalMessage(err.message,'error');
   } finally {
