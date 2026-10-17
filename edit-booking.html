@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#c90016">
-<title>ACS SERVICE CENTER | จองคิวเข้ารับบริการ</title>
+<title>ACS SERVICE CENTER | แก้ไขการจอง</title>
 <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
 
 <style>
@@ -208,6 +208,7 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--red)!imp
   <nav class="nav" aria-label="เมนูการจอง">
     <button class="active" data-tab="booking">＋ จองคิว</button>
     <button data-tab="manage">✎ แก้ไขนัดหมาย</button>
+    <button data-tab="status">▤ รายละเอียด</button>
   </nav>
 
   <div id="globalStatus" class="status" role="status" aria-live="polite"></div>
@@ -216,9 +217,10 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--red)!imp
 <nav class="acs-page-nav" aria-label="เมนูหลัก">
   <a href="booking.html" data-page="booking">＋ จองคิว</a>
   <a href="edit-booking.html" data-page="manage">✎ แก้ไขการจอง</a>
+  <a href="booking-detail.html" data-page="status">▤ ดูรายละเอียด</a>
 </nav>
 <style>
-.tabs{display:none!important}.acs-page-nav{position:sticky;top:8px;z-index:20;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin:17px 0;padding:7px;background:#ffffffed;backdrop-filter:blur(14px);border:1px solid #f1e1e3;border-radius:18px;box-shadow:0 10px 28px #4d001012}
+.tabs{display:none!important}.acs-page-nav{position:sticky;top:8px;z-index:20;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin:17px 0;padding:7px;background:#ffffffed;backdrop-filter:blur(14px);border:1px solid #f1e1e3;border-radius:18px;box-shadow:0 10px 28px #4d001012}
 .acs-page-nav a{display:flex;align-items:center;justify-content:center;text-align:center;min-height:49px;padding:9px 5px;border-radius:13px;border:1px solid #f0d7da;background:#fff;color:#8f0b1b;text-decoration:none;font-size:13px;font-weight:750;box-shadow:0 5px 16px #4d00100a;transition:transform .2s,background .2s}
 .acs-page-nav a:hover{transform:translateY(-2px)}
 .acs-page-nav a.active{background:linear-gradient(120deg,#a90010,#e92335);color:#fff;border-color:transparent;box-shadow:0 8px 20px #c9001628}
@@ -711,22 +713,6 @@ $('bookingForm').addEventListener('submit',async e=>{
   }
   busy=true;setBusy(button,true,'กำลังบันทึกการจอง...');
   try {
-    // รอให้ LIFF โหลดข้อมูลผู้ใช้เสร็จก่อนส่งรายการจอง
-    await lineInitPromise;
-    if (!lineUserId && typeof liff !== 'undefined') {
-      try {
-        if (liff.isLoggedIn()) {
-          const profile = await liff.getProfile();
-          lineUserId = profile.userId || '';
-        }
-      } catch (profileErr) {
-        console.warn('ไม่สามารถอ่าน LINE profile ก่อนจอง:', profileErr);
-      }
-    }
-    data.lineUserId = lineUserId;
-    if (!lineUserId) {
-      console.warn('จองโดยไม่มี LINE User ID จึงส่งข้อความยืนยันถึงลูกค้าไม่ได้');
-    }
     const result=await api('createAppointment',data);
     if(!result.success) throw new Error(result.message || 'จองคิวไม่สำเร็จ');
     const a=result.appointment || {...data,bookingId:result.bookingId,status:'รอรับรถ'};
@@ -853,11 +839,11 @@ $('findPhone').addEventListener('input',e=>{
   e.target.value=e.target.value.replace(/[^\d+\s-]/g,'');
 });
 
-const lineInitPromise = initLine();
+initLine();
 </script>
 <script>
 document.querySelectorAll('.acs-page-nav a').forEach(a=>{
-  if(a.dataset.page==='booking') a.classList.add('active');
+  if(a.dataset.page==='manage') a.classList.add('active');
 });
 </script>
 </body>
