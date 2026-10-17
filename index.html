@@ -175,7 +175,9 @@ input,select,textarea{background:#fffdfd}
 
 /* ACS PLUS visual polish */
 .service-list{gap:12px}
-.service{position:relative;min-height:82px;padding:16px 14px;border-radius:16px;text-align:left}
+.service{position:relative;min-height:82px;padding:16px 14px 16px 42px;border-radius:16px;text-align:left}
+.service:before{content:'+';position:absolute;left:14px;top:50%;transform:translateY(-50%);width:20px;height:20px;border:1.5px solid #d4d4d8;border-radius:6px;display:grid;place-items:center;color:#777;font-size:16px;font-weight:700}
+.service.selected:before{content:'✓';background:var(--red);border-color:var(--red);color:#fff}
 .service strong{font-size:14px;line-height:1.35}
 .service small{font-size:12px;line-height:1.4}
 input:focus,select:focus,textarea:focus{outline:none;border-color:var(--red)!important;box-shadow:0 0 0 4px rgba(201,0,22,.09)}
@@ -203,17 +205,22 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--red)!imp
 </header>
 
 <main class="wrap content">
-  
+  <nav class="nav" aria-label="เมนูการจอง">
+    <button class="active" data-tab="booking">＋ จองคิว</button>
+    <button data-tab="manage">✎ แก้ไขนัดหมาย</button>
+    <button data-tab="status">▤ รายละเอียด</button>
+  </nav>
 
   <div id="globalStatus" class="status" role="status" aria-live="polite"></div>
 
   
 <nav class="acs-page-nav" aria-label="เมนูหลัก">
-  <a href="index.html" data-page="booking">＋ จองคิว</a>
+  <a href="booking.html" data-page="booking">＋ จองคิว</a>
   <a href="edit-booking.html" data-page="manage">✎ แก้ไขการจอง</a>
+  <a href="booking-detail.html" data-page="status">▤ ดูรายละเอียด</a>
 </nav>
 <style>
-.tabs{display:none!important}.acs-page-nav{position:sticky;top:8px;z-index:20;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin:17px 0;padding:7px;background:#ffffffed;backdrop-filter:blur(14px);border:1px solid #f1e1e3;border-radius:18px;box-shadow:0 10px 28px #4d001012}
+.tabs{display:none!important}.acs-page-nav{position:sticky;top:8px;z-index:20;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin:17px 0;padding:7px;background:#ffffffed;backdrop-filter:blur(14px);border:1px solid #f1e1e3;border-radius:18px;box-shadow:0 10px 28px #4d001012}
 .acs-page-nav a{display:flex;align-items:center;justify-content:center;text-align:center;min-height:49px;padding:9px 5px;border-radius:13px;border:1px solid #f0d7da;background:#fff;color:#8f0b1b;text-decoration:none;font-size:13px;font-weight:750;box-shadow:0 5px 16px #4d00100a;transition:transform .2s,background .2s}
 .acs-page-nav a:hover{transform:translateY(-2px)}
 .acs-page-nav a.active{background:linear-gradient(120deg,#a90010,#e92335);color:#fff;border-color:transparent;box-shadow:0 8px 20px #c9001628}
@@ -247,9 +254,6 @@ body[data-page="status"] [data-tab="booking"],body[data-page="status"] [data-tab
           <button type="button" class="service" data-service="ช่วงล่างและระบบเบรก" aria-pressed="false">
             <strong>ช่วงล่างและระบบเบรก</strong><small>ตรวจเช็กเพื่อความปลอดภัย</small>
           </button>
-          <button type="button" class="service" data-service="เช็ค 27 รายการ" aria-pressed="false">
-            <strong>เช็ค 27 รายการ</strong><small>ตรวจเช็กรถเบื้องต้น 27 จุด</small>
-          </button>
         </div>
         <p class="date-note">เลือกได้หลายบริการพร้อมกัน โดยแตะรายการที่ต้องการ</p>
       </div>
@@ -281,7 +285,13 @@ body[data-page="status"] [data-tab="booking"],body[data-page="status"] [data-tab
           </div>
           <div class="field">
             <label for="brand">ยี่ห้อรถ</label>
-            <input id="brand" name="brand" maxlength="50" placeholder="พิมพ์ยี่ห้อรถ">
+            <select id="brand" name="brand">
+              <option value="">เลือกยี่ห้อ</option>
+              <option>Toyota</option><option>Honda</option><option>Isuzu</option>
+              <option>Mitsubishi</option><option>Nissan</option><option>Ford</option>
+              <option>Mazda</option><option>MG</option><option>BYD</option>
+              <option>อื่น ๆ</option>
+            </select>
           </div>
         </div>
 
@@ -308,7 +318,6 @@ body[data-page="status"] [data-tab="booking"],body[data-page="status"] [data-tab
           </div>
         </div>
 
-        
         <div class="field">
           <label for="detail">รายละเอียดเพิ่มเติม</label>
           <textarea id="detail" name="detail" maxlength="1000" placeholder="รายละเอียดอาการรถหรือสิ่งที่ต้องการให้ช่างตรวจเช็ก"></textarea>
@@ -338,7 +347,10 @@ body[data-page="status"] [data-tab="booking"],body[data-page="status"] [data-tab
           <label for="findPhone">เบอร์โทรศัพท์ที่ใช้จอง <span class="req">*</span></label>
           <input id="findPhone" type="tel" inputmode="tel" required placeholder="กรอกเบอร์โทรศัพท์ที่ใช้จอง" autocomplete="tel">
         </div>
-        <input id="findId" type="hidden" value="">
+        <div class="field">
+          <label for="findId">เลขที่จอง (ไม่จำเป็น — ค้นหาด้วยเบอร์โทรได้)</label>
+          <input id="findId" placeholder="เช่น ACS-20261009104958-5226">
+        </div>
         <button class="btn btn-primary btn-block" type="submit">ค้นหาการจอง</button>
       </form>
       <div id="findResult" class="status" aria-live="polite"></div>
@@ -361,7 +373,12 @@ body[data-page="status"] [data-tab="booking"],body[data-page="status"] [data-tab
           <div class="field"><label for="editProvince">จังหวัด</label><input id="editProvince"></div>
           <div class="field">
             <label for="editBrand">ยี่ห้อรถ</label>
-            <input id="editBrand" maxlength="50" placeholder="พิมพ์ยี่ห้อรถ">
+            <select id="editBrand">
+              <option value="">เลือกยี่ห้อ</option>
+              <option>Toyota</option><option>Honda</option><option>Isuzu</option>
+              <option>Mitsubishi</option><option>Nissan</option><option>Ford</option>
+              <option>Mazda</option><option>MG</option><option>BYD</option><option>อื่น ๆ</option>
+            </select>
           </div>
         </div>
         <div class="field"><label for="editModel">รุ่นรถ</label><input id="editModel"></div>
@@ -415,7 +432,7 @@ body[data-page="status"] [data-tab="booking"],body[data-page="status"] [data-tab
 const LIFF_ID = '2011246207-sX1HgP1s';
 const GAS_URL = 'https://script.google.com/macros/s/AKfycbwztzUCGN0AUy8bXUzG96o60Prt5hoMhZnght_xrlgC2lWfoEvszod_hYv28G8n9qOtuQ/exec';
 
-const TIME_SLOTS = ['08:30','09:30','10:30','11:30','13:30','14:30','15:30','16:30','17:00'];
+const TIME_SLOTS = ['08:00','09:00','10:00','11:00','13:00','14:00','15:00','16:00','17:00'];
 const $ = id => document.getElementById(id);
 
 let lineUserId = '';
@@ -476,8 +493,8 @@ function api(action,data={}) {
     };
     timer = setTimeout(()=>{
       cleanup();
-      reject(new Error('ระบบโหลดเวลาว่างช้าเกินไป กรุณาตรวจสอบการ Deploy Apps Script และสิทธิ์เข้าถึง ACS Calendar แล้วลองอีกครั้ง'));
-    },40000);
+      reject(new Error('ระบบตอบกลับช้าเกินไป กรุณาลองอีกครั้ง'));
+    },25000);
     const params = new URLSearchParams({
       action,
       data:JSON.stringify(data),
@@ -488,11 +505,7 @@ function api(action,data={}) {
   });
 }
 function normalizePhone(v) {
-  let p=String(v||'').replace(/[^0-9+]/g,'').trim();
-  if(p.startsWith('+66')) p='0'+p.slice(3);
-  else if(p.startsWith('66') && p.length>=11) p='0'+p.slice(2);
-  if(/^[1-9]\d{8}$/.test(p)) p='0'+p;
-  return p;
+  return String(v||'').replace(/[\s-]/g,'').trim();
 }
 function todayString() {
   const now = new Date();
@@ -523,7 +536,7 @@ function escapeHtml(v) {
 function switchTab(tab) {
   ['booking','manage','status'].forEach(name=>{
     $(name+'View').classList.toggle('hidden',name!==tab);
-    const tabButton=document.querySelector(`[data-tab="${name}"]`); if(tabButton) tabButton.classList.toggle('active',name===tab);
+    document.querySelector(`[data-tab="${name}"]`).classList.toggle('active',name===tab);
   });
   $('successView').classList.add('hidden');
   hideMessage($('globalStatus'));
@@ -547,7 +560,7 @@ if (initialPage === 'status') {
   }
 }
 
-document.querySelectorAll('#serviceList .service').forEach(btn=>{
+document.querySelectorAll('.service').forEach(btn=>{
   btn.addEventListener('click',()=>{
     const service = btn.dataset.service;
     if(selectedServices.includes(service)) {
@@ -562,8 +575,6 @@ document.querySelectorAll('#serviceList .service').forEach(btn=>{
     updateSummary();
   });
 });
-
-
 
 function updateSummary() {
   $('bookingSummary').classList.remove('hidden');
@@ -673,6 +684,27 @@ $('bookingForm').addEventListener('submit',async e=>{
   e.preventDefault();
   if(busy) return;
   const button=$('submitBooking');
+  // รอให้ LIFF โหลด LINE User ID ก่อนส่งข้อมูลจอง
+  try {
+    await lineInitPromise;
+    if(!lineUserId && typeof liff !== 'undefined' && liff.isLoggedIn()) {
+      const profile = await liff.getProfile();
+      lineUserId = profile.userId || '';
+      if(lineUserId) {
+        try {
+          await api('saveLineUser', {
+            userId: lineUserId,
+            displayName: profile.displayName || '',
+            source: 'github-liff-bridge'
+          });
+        } catch(saveErr) {
+          console.warn('LINE profile save before booking:', saveErr.message || saveErr);
+        }
+      }
+    }
+  } catch(lineErr) {
+    console.warn('LINE profile unavailable before booking:', lineErr.message || lineErr);
+  }
   const data={
     customer:$('customer').value.trim(),
     phone:normalizePhone($('phone').value),
@@ -702,22 +734,6 @@ $('bookingForm').addEventListener('submit',async e=>{
   }
   busy=true;setBusy(button,true,'กำลังบันทึกการจอง...');
   try {
-    // รอให้ LIFF โหลด LINE User ID เสร็จก่อนส่งรายการจอง
-    await lineInitPromise;
-    if(!lineUserId && typeof liff !== 'undefined') {
-      try {
-        if(liff.isLoggedIn()) {
-          const profile = await liff.getProfile();
-          lineUserId = profile.userId || '';
-        }
-      } catch(profileErr) {
-        console.warn('ไม่สามารถอ่าน LINE profile ก่อนจอง:', profileErr);
-      }
-    }
-    data.lineUserId = lineUserId;
-    if(!lineUserId) {
-      console.warn('ไม่พบ LINE User ID; ระบบอาจบันทึกการจองได้แต่ส่งข้อความยืนยันถึงลูกค้าไม่ได้');
-    }
     const result=await api('createAppointment',data);
     if(!result.success) throw new Error(result.message || 'จองคิวไม่สำเร็จ');
     const a=result.appointment || {...data,bookingId:result.bookingId,status:'รอรับรถ'};
@@ -739,10 +755,6 @@ $('bookingForm').addEventListener('submit',async e=>{
     selectedServices=[]; document.querySelectorAll('.service').forEach(b=>{b.classList.remove('selected');b.setAttribute('aria-pressed','false');});
     $('bookingSummary').classList.add('hidden');
     $('timeGrid').innerHTML='<p class="small-note">กรุณาเลือกวันที่เพื่อดูเวลาว่าง</p>';
-    // ถ้าเปิดผ่าน LINE LIFF ให้กลับไปยังห้องแชทหลังแสดงผลสำเร็จชั่วครู่
-    if (typeof liff !== 'undefined' && liff.isInClient()) {
-      setTimeout(() => { try { liff.closeWindow(); } catch (closeErr) { console.warn('LIFF closeWindow:', closeErr); } }, 2200);
-    }
   } catch(err) {
     globalMessage(err.message,'error');
   } finally {
@@ -852,7 +864,7 @@ const lineInitPromise = initLine();
 </script>
 <script>
 document.querySelectorAll('.acs-page-nav a').forEach(a=>{
-  a.classList.toggle('active', a.dataset.page===document.body.dataset.page);
+  if(a.dataset.page==='booking') a.classList.add('active');
 });
 </script>
 </body>
