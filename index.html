@@ -684,27 +684,6 @@ $('bookingForm').addEventListener('submit',async e=>{
   e.preventDefault();
   if(busy) return;
   const button=$('submitBooking');
-  // รอให้ LIFF โหลด LINE User ID ก่อนส่งข้อมูลจอง
-  try {
-    await lineInitPromise;
-    if(!lineUserId && typeof liff !== 'undefined' && liff.isLoggedIn()) {
-      const profile = await liff.getProfile();
-      lineUserId = profile.userId || '';
-      if(lineUserId) {
-        try {
-          await api('saveLineUser', {
-            userId: lineUserId,
-            displayName: profile.displayName || '',
-            source: 'github-liff-bridge'
-          });
-        } catch(saveErr) {
-          console.warn('LINE profile save before booking:', saveErr.message || saveErr);
-        }
-      }
-    }
-  } catch(lineErr) {
-    console.warn('LINE profile unavailable before booking:', lineErr.message || lineErr);
-  }
   const data={
     customer:$('customer').value.trim(),
     phone:normalizePhone($('phone').value),
@@ -860,7 +839,7 @@ $('findPhone').addEventListener('input',e=>{
   e.target.value=e.target.value.replace(/[^\d+\s-]/g,'');
 });
 
-const lineInitPromise = initLine();
+initLine();
 </script>
 <script>
 document.querySelectorAll('.acs-page-nav a').forEach(a=>{
